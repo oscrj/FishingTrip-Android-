@@ -5,54 +5,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".MainActivity">
+    tools:context=".LoginActivity">
 
     <TextView
-        android:id="@+id/textHeader"
+        android:id="@+id/textLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fishing Trip"
+        android:text="Login"
         android:textColor="@color/colorText"
-        android:textSize="36sp"
-        android:textStyle="bold"
+        android:textSize="24sp"
         app:fontFamily="sans-serif-medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.112" />
+        app:layout_constraintVertical_bias="0.206" />
 
     <LinearLayout
-        android:layout_width="200dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="200dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.16000003">
+        app:layout_constraintVertical_bias="0.0">
+
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorText"
+            android:ems="10"
+            android:hint="email"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/colorText" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="11dp" />
+
+
+        <EditText
+            android:id="@+id/editTextTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorText"
+            android:ems="10"
+            android:hint="password"
+            android:inputType="textPassword"
+            android:textColor="@color/colorText"
+            android:textColorHint="@color/colorText"
+            android:textIsSelectable="false"
+            android:textSize="18sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
 
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_login_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorViewBackground"
             android:text="Login"
             android:textColor="@color/colorText" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="19dp" />
-
-        <Button
-            android:id="@+id/btn_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorViewBackground"
-            android:text="Register"
-            android:textColor="@color/colorText" />
-
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
