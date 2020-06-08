@@ -11,7 +11,7 @@
         android:id="@+id/textRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="@string/btn_register"
         android:textColor="@color/colorText"
         android:textSize="24sp"
         app:fontFamily="sans-serif-medium"
