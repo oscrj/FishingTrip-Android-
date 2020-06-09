@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".FishingTripActivity">
+    tools:context=".FishingTripsActivity">
 
     <TextView
-        android:id="@+id/txtHeaderFishingTrip"
+        android:id="@+id/txtHeaderTrips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
+        android:text="@string/all_fishing_trips"
         android:textColor="@color/colorText"
         android:textSize="24sp"
         app:fontFamily="sans-serif-medium"
@@ -20,4 +20,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.028" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="553dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtHeaderTrips" />
 </androidx.constraintlayout.widget.ConstraintLayout>
