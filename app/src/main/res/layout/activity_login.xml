@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.028" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextUserName"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -40,18 +40,18 @@
         tools:targetApi="lollipop" />
 
     <Button
-        android:id="@+id/btn_login_submit"
+        android:id="@+id/btnLoginSubmit"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@color/colorViewBackground"
         android:text="@string/btn_login"
         android:textColor="@color/colorText"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintStart_toStartOf="@+id/editTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/editTextPassword"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -63,8 +63,8 @@
         android:textColorHint="@color/colorText"
         android:textIsSelectable="false"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        app:layout_constraintStart_toStartOf="@+id/editTextUserName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUserName"
         android:autofillHints=""
         tools:targetApi="lollipop" />
 

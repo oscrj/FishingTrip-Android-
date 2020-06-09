@@ -1,5 +1,6 @@
 package com.example.fishingtrip;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,9 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnLogin = findViewById(R.id.btn_login);
-        btnRegister = findViewById(R.id.btn_register);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnRegister = findViewById(R.id.btnRegister);
 
     }
 
@@ -76,14 +77,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         actionBar = getSupportActionBar();
+        actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setLogo(R.drawable.ic_action_name);
+        actionBar.setLogo(R.drawable.ic_action_menu_fishingtrip_logo);
         actionBar.setDisplayUseLogoEnabled(true);
 
         // Set menu to activity, inflater handel the print!
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.actionbar_menu, menu);
-
+        inflater.inflate(R.menu.actionbar_menu_no_permit, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.actionBarRegister) {
+            Intent register = new Intent(this, RegisterActivity.class);
+            startActivity(register);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -9,4 +9,6 @@
     <string name="new_fishing_trip">New Trip</string>
     <string name="all_fishing_trips">Earlier Trips</string>
     <string name="weather">Weather forecast</string>
+    <string name="end_of_trip">End Trip</string>
+    <string name="add_catch">+ Add Catch</string>
 </resources>

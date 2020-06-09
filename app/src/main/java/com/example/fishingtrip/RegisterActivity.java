@@ -54,12 +54,12 @@ public class RegisterActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setLogo(R.drawable.ic_action_name);
+        actionBar.setLogo(R.drawable.ic_action_menu_fishingtrip_logo);
         actionBar.setDisplayUseLogoEnabled(true);
 
         // Set menu to activity, inflater handel the print!
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.actionbar_menu, menu);
+        inflater.inflate(R.menu.actionbar_menu_no_permit, menu);
 
         return super.onCreateOptionsMenu(menu);
     }

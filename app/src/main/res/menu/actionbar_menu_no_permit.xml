@@ -2,9 +2,9 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/actionBarProfile"
-        android:icon="@drawable/ic_action_menu_user"
-        android:title="@string/txt_header_profile"
-
+        android:id="@+id/actionBarRegister"
+        android:icon="@drawable/ic_action_menu_add_user"
+        android:title="@string/btn_register"
+        android:visible="true"
         app:showAsAction="always" />
 </menu>

@@ -3,19 +3,23 @@ package com.example.fishingtrip;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
+    private TextView homeUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        homeUserName = findViewById(R.id.txtHeaderHome);
     }
 
     @Override
@@ -26,6 +30,9 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        getAppUser();
+
     }
 
     @Override
@@ -54,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setLogo(R.drawable.ic_action_name);
+        actionBar.setLogo(R.drawable.ic_action_menu_fishingtrip_logo);
         actionBar.setDisplayUseLogoEnabled(true);
 
         // Set menu to activity, inflater handel the print!
@@ -62,6 +69,11 @@ public class HomeActivity extends AppCompatActivity {
         inflater.inflate(R.menu.actionbar_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void getAppUser(){
+        Intent userLogged = getIntent();
+        homeUserName.setText(userLogged.getStringExtra("USERNAME_DATA"));
     }
 
 }
