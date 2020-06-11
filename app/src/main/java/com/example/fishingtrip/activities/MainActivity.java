@@ -13,11 +13,13 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.fishingtrip.R;
+import com.example.fishingtrip.databas.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button btnLogin, btnRegister;
     private ActionBar actionBar;
+    private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
+        dbHelper = new DBHelper(this);
 
     }
 
