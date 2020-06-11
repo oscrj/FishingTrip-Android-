@@ -1,4 +1,4 @@
-package com.example.fishingtrip;
+package com.example.fishingtrip.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,16 +7,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-public class RegisterActivity extends AppCompatActivity {
+import com.example.fishingtrip.R;
+
+public class NewTripActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_new_trip);
     }
-
 
     @Override
     protected void onStart() {
@@ -50,7 +51,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         actionBar = getSupportActionBar();
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
@@ -59,7 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Set menu to activity, inflater handel the print!
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.actionbar_menu_no_permit, menu);
+        inflater.inflate(R.menu.actionbar_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
     }

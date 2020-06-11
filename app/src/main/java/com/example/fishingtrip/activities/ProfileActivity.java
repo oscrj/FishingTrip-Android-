@@ -1,4 +1,4 @@
-package com.example.fishingtrip;
+package com.example.fishingtrip.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+
+import com.example.fishingtrip.R;
 
 public class ProfileActivity extends AppCompatActivity {
 

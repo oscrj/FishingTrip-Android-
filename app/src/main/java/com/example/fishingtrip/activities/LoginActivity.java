@@ -1,4 +1,4 @@
-package com.example.fishingtrip;
+package com.example.fishingtrip.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.fishingtrip.R;
+
 public class LoginActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
@@ -26,8 +28,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        userName = findViewById(R.id.editTextUserName);
-        password = findViewById(R.id.editTextPassword);
+        userName = findViewById(R.id.inputTextLoginUserName);
+        password = findViewById(R.id.inputTextLoginPassword);
         btnLogin = findViewById(R.id.btnLoginSubmit);
     }
 

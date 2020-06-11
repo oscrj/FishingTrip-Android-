@@ -1,4 +1,4 @@
-package com.example.fishingtrip;
+package com.example.fishingtrip.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,14 +7,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-public class NewTripActivity extends AppCompatActivity {
+import com.example.fishingtrip.R;
+
+public class FishingTripsActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_trip);
+        setContentView(R.layout.activity_fishing_trips);
     }
 
     @Override

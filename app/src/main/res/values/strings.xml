@@ -4,8 +4,12 @@
     <string name="btn_register">Register</string>
     <string name="hint_username">username</string>
     <string name="hint_password">password</string>
+    <string name="hint_first_name">First name</string>
+    <string name="hint_last_name">Last name</string>
+    <string name="hint_email">email</string>
     <string name="txt_header_profile">Profile</string>
     <string name="txt_header_home">Home</string>
+    <string name="txt_header_register">Register New User</string>
     <string name="new_fishing_trip">New Trip</string>
     <string name="all_fishing_trips">Earlier Trips</string>
     <string name="weather">Weather forecast</string>
