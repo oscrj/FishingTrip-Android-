@@ -34,7 +34,8 @@
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/textRegister"
+        android:autofillHints="" tools:targetApi="lollipop" />
 
     <EditText
         android:id="@+id/inputPassword"
@@ -49,7 +50,8 @@
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="@+id/inputUserName"
         app:layout_constraintStart_toStartOf="@+id/inputUserName"
-        app:layout_constraintTop_toBottomOf="@+id/inputUserName" />
+        app:layout_constraintTop_toBottomOf="@+id/inputUserName"
+        android:autofillHints="" tools:targetApi="lollipop" />
 
     <EditText
         android:id="@+id/inputFirstname"
@@ -64,7 +66,8 @@
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="@+id/inputPassword"
         app:layout_constraintStart_toStartOf="@+id/inputPassword"
-        app:layout_constraintTop_toBottomOf="@+id/inputPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/inputPassword"
+        android:autofillHints="" tools:targetApi="lollipop" />
 
     <EditText
         android:id="@+id/inputLastName"
@@ -79,7 +82,8 @@
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="@+id/inputFirstname"
         app:layout_constraintStart_toStartOf="@+id/inputFirstname"
-        app:layout_constraintTop_toBottomOf="@+id/inputFirstname" />
+        app:layout_constraintTop_toBottomOf="@+id/inputFirstname"
+        android:autofillHints="" tools:targetApi="lollipop" />
 
     <EditText
         android:id="@+id/inputEmail"
@@ -94,7 +98,8 @@
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="@+id/inputLastName"
         app:layout_constraintStart_toStartOf="@+id/inputLastName"
-        app:layout_constraintTop_toBottomOf="@+id/inputLastName" />
+        app:layout_constraintTop_toBottomOf="@+id/inputLastName"
+        android:autofillHints="" tools:targetApi="lollipop"/>
 
     <Button
         android:id="@+id/btnRegisterSubmit"
