@@ -19,16 +19,13 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnLogin, btnRegister;
     private ActionBar actionBar;
-    private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
-        dbHelper = new DBHelper(this);
 
     }
 

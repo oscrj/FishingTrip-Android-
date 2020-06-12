@@ -1,7 +1,6 @@
 package com.example.fishingtrip.models;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class FishingTrip {
 

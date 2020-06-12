@@ -101,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             if (userName.getText().toString().trim().equals("oscrj") && password.getText().toString().equals("password123")){
+
                 btnLogin.setEnabled(true);
 
                 btnLogin.setOnClickListener(new View.OnClickListener() {

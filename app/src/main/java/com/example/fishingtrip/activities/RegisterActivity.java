@@ -3,18 +3,18 @@ package com.example.fishingtrip.activities;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
 import com.example.fishingtrip.models.AppUser;
-
-import java.time.LocalDate;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -49,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onResume();
 
         /**
-         * Set onclick listener on button register.
+         * Set onclick listener on button register and create new user from inputs by User.
          */
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +59,16 @@ public class RegisterActivity extends AppCompatActivity {
                         inputPassword.getText().toString(), inputFirstName.getText().toString(),
                         inputLastName.getText().toString(), inputEmail.getText().toString());
 
-                
+                boolean status = dbHelper.addAppUser(newUser);
+
+                if(status){
+                    Toast.makeText(RegisterActivity.this, "User Registered!", Toast.LENGTH_SHORT).show();
+                    Intent loginActivity = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(loginActivity);
+
+                }else{
+                    Toast.makeText(RegisterActivity.this, "User was not registered", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
