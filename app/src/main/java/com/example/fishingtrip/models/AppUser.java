@@ -1,7 +1,5 @@
 package com.example.fishingtrip.models;
 
-import java.time.LocalDate;
-
 public class AppUser {
 
     private int userId;
@@ -10,16 +8,14 @@ public class AppUser {
     private String firstName;
     private String lastName;
     private String email;
-    private LocalDate regDate;
 
-    public AppUser(int userId, String userName, String password, String firstName, String lastName, String email, LocalDate regDate) {
+    public AppUser(int userId, String userName, String password, String firstName, String lastName, String email) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.regDate = regDate;
     }
 
     public int getUserId() {
@@ -66,15 +62,6 @@ public class AppUser {
         this.email = email;
     }
 
-    public LocalDate getRegDate() {
-        return regDate;
-    }
-
-    public void setRegDate(LocalDate regDate) {
-        this.regDate = regDate;
-    }
-
-
     @Override
     public String toString() {
         return "AppUser{" +
@@ -82,12 +69,11 @@ public class AppUser {
                 ", userName='" + userName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", regDate=" + regDate +
+                ", email='" + email +
                 '}';
     }
 
     public String userDataToString(){
-        return userName + " , " + firstName +" " + lastName + " , " + email + " , " + regDate;
+        return userName + " , " + firstName +" " + lastName + " , " + email;
     }
 }

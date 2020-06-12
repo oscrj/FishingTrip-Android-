@@ -9,6 +9,5 @@ public class QueryMessages {
     public static final String COL_FIRST_NAME = "FIRST_NAME";
     public static final String COL_LAST_NAME = "LAST_NAME";
     public static final String COL_EMAIL = "EMAIL";
-    public static final String COL_REG_DATE = "REG_DATE";
 
 }
