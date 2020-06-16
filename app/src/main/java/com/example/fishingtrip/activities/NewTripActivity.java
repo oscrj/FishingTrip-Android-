@@ -63,4 +63,25 @@ public class NewTripActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
+
+    /**
+     * SAVE User login session.
+     */
+    public void saveUserDATA(){
+
+    }
+
+    /**
+     * load User data if user are logged in.
+     */
+    public void loadUserData(){
+
+    }
+
+    /**
+     * clear data if user logout.
+     */
+    public void clearUserData(){
+
+    }
 }

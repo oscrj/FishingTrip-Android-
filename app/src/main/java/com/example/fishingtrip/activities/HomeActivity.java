@@ -4,17 +4,26 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.TextView;
 
 import com.example.fishingtrip.R;
+import com.example.fishingtrip.databas.DBHelper;
+import com.example.fishingtrip.models.AppUser;
+
+import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
+import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
 
 public class HomeActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
     private TextView homeUserName;
+    private String userLoginData;
+    private DBHelper dbHelper;
+    private AppUser appUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +31,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         homeUserName = findViewById(R.id.txtHeaderHome);
+
+        loadUserData();
+        getAppUser();
     }
 
     @Override
@@ -32,9 +44,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        getAppUser();
-
+        homeUserName.setText(userLoginData);
     }
 
     @Override
@@ -74,8 +84,28 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void getAppUser(){
-        Intent userLogged = getIntent();
-        homeUserName.setText(userLogged.getStringExtra("USERNAME_DATA"));
+         //appUser = dbHelper.findAppUserByUserName(userLoginData);
     }
 
+    /**
+     * SAVE User login session.
+     */
+    public void saveUserDATA(){
+
+    }
+
+    /**
+     * load User data if user are logged in.
+     */
+    public void loadUserData(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_LOGIN, MODE_PRIVATE);
+        userLoginData = sharedPreferences.getString(USER_NAME_DATA, "Username not found!");
+    }
+
+    /**
+     * clear data if user logout.
+     */
+    public void clearUserData(){
+
+    }
 }

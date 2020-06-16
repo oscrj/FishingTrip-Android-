@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,22 +15,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.fishingtrip.R;
+import com.example.fishingtrip.databas.DBHelper;
+
+import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
+import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
 
 public class LoginActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
-    private TextView userName, password;
+    private TextView userNameInput, passwordInput;
     private Button btnLogin;
+    private String userLoginData;
+    private DBHelper dbHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        userName = findViewById(R.id.inputTextLoginUserName);
-        password = findViewById(R.id.inputTextLoginPassword);
+        userNameInput = findViewById(R.id.inputTextLoginUserName);
+        passwordInput = findViewById(R.id.inputTextLoginPassword);
         btnLogin = findViewById(R.id.btnLoginSubmit);
     }
 
@@ -44,8 +53,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // Makes it only possible to submit if correct value is given
         btnLogin.setEnabled(false);
-        userName.addTextChangedListener(loginValidation);
-        password.addTextChangedListener(loginValidation);
+        userNameInput.addTextChangedListener(loginValidation);
+        passwordInput.addTextChangedListener(loginValidation);
 
     }
 
@@ -100,20 +109,33 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            if (userName.getText().toString().trim().equals("oscrj") && password.getText().toString().equals("password123")){
+            btnLogin.setEnabled(true);
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                btnLogin.setEnabled(true);
+                    //verifyUserExist();
 
-                btnLogin.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent home = new Intent(LoginActivity.this, HomeActivity.class);
-                        home.putExtra("USERNAME_DATA", userName.getText().toString());
-                        startActivity(home);
-                    }
-                });
-            }else
-                btnLogin.setEnabled(false);
+                    // temporary login process....
+                    if (userNameInput.getText().toString().trim().equals("oscar") && passwordInput.getText().toString().equals("password123")){
+
+                        btnLogin.setEnabled(true);
+
+                        btnLogin.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent home = new Intent(LoginActivity.this, HomeActivity.class);
+                                userLoginData = userNameInput.getText().toString();
+                                saveUserDATA();
+                                startActivity(home);
+                            }
+                        });
+                    }else
+                        btnLogin.setEnabled(false);
+
+                }
+            });
+
         }
 
         @Override
@@ -121,4 +143,49 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     };
+
+    /**
+     * Verify that user with username and password exist in database.
+     */
+    public void verifyUserExist(){
+
+        if(dbHelper.checkUser(userNameInput.getText().toString().trim(), passwordInput.getText().toString().trim())){
+
+            userLoginData = userNameInput.getText().toString();
+            saveUserDATA();
+            Intent home = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(home);
+
+        }else{
+            btnLogin.setEnabled(false);
+            Toast.makeText(LoginActivity.this, "User not Found!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * SAVE User login session.
+     */
+    public void saveUserDATA(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_LOGIN, MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(USER_NAME_DATA, userLoginData);
+
+        editor.apply();
+    }
+
+    /**
+     * load User data if user are logged in.
+     */
+    public void loadUserData(){
+
+    }
+
+    /**
+     * clear data if user logout.
+     */
+    public void clearUserData(){
+
+    }
+
 }

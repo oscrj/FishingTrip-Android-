@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,10 +16,14 @@ import android.widget.Button;
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
 
+import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
+import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button btnLogin, btnRegister;
     private ActionBar actionBar;
+    private String userLoginData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,27 +43,38 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        /**
-         *  On click user start Login Activity
-         */
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent loginActivity = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(loginActivity);
-            }
-        });
+        // Check if user already logged in
+        loadUserData();
 
-        /**
-         *  On click user start Register Activity
-         */
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent registerActivity = new Intent(MainActivity.this, RegisterActivity.class);
-                startActivity(registerActivity);
-            }
-        });
+        if(userLoginData.isEmpty() || userLoginData.equals("User Not found!")){
+
+            /**
+             *  On click user start Login Activity
+             */
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent loginActivity = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(loginActivity);
+                }
+            });
+
+            /**
+             *  On click user start Register Activity
+             */
+            btnRegister.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent registerActivity = new Intent(MainActivity.this, RegisterActivity.class);
+                    startActivity(registerActivity);
+                }
+            });
+        }else{
+
+            Intent homeActivity = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(homeActivity);
+        }
+
     }
 
     @Override
@@ -97,5 +113,27 @@ public class MainActivity extends AppCompatActivity {
             startActivity(register);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * SAVE User login session.
+     */
+    public void saveUserDATA(){
+
+    }
+
+    /**
+     * load User data if user are logged in.
+     */
+    public void loadUserData(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_LOGIN, MODE_PRIVATE);
+        userLoginData = sharedPreferences.getString(USER_NAME_DATA, "User Not found!");
+    }
+
+    /**
+     * clear data if user logout.
+     */
+    public void clearUserData(){
+
     }
 }

@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
-
 import com.example.fishingtrip.models.AppUser;
 
 import static com.example.fishingtrip.constants.QueryMessages.APP_USER_TABLE;
@@ -20,7 +19,6 @@ import static com.example.fishingtrip.constants.QueryMessages.COL_USER_NAME;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-
     public DBHelper(@Nullable Context context) {
         super(context, "fishingTrip.db", null, 1);
     }
@@ -30,7 +28,6 @@ public class DBHelper extends SQLiteOpenHelper {
         //  Create APP_USER_TABLE in database.
         String createAppUserTable = "CREATE TABLE " + APP_USER_TABLE + " (" + COL_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_USER_NAME + " TEXT, "
                 + COL_PASSWORD + " TEXT, " + COL_FIRST_NAME + " TEXT, " + COL_LAST_NAME + " TEXT, " + COL_EMAIL + " TEXT)";
-
         db.execSQL(createAppUserTable);
     }
 
@@ -56,11 +53,10 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(COL_EMAIL, appUser.getEmail());
 
         long insertStatus = db.insert(APP_USER_TABLE, null, contentValues);
+        db.close();
         if (insertStatus == -1){
-            db.close();
             return false;
         }else{
-            db.close();
             return true;
         }
     }
@@ -85,8 +81,52 @@ public class DBHelper extends SQLiteOpenHelper {
         }else{
             throw new IllegalArgumentException("User not found!");
         }
-
+        cursor.close();
         return tempAppUser;
     }
 
+    /**
+     * This method to check user exist or not
+     *
+     * @param userName
+     * @param password
+     * @return true/false
+     */
+    public boolean checkUser(String userName, String password) {
+        //  array of columns to fetch
+        String[] columns = {
+                COL_USER_ID
+        };
+        SQLiteDatabase db = this.getReadableDatabase();
+        //  selection criteria
+        String selection = COL_USER_NAME + " = ?" + " AND " + COL_PASSWORD + " = ?";
+        //  selection arguments
+        String[] selectionArgs = {userName, password};
+        //  query user table with conditions
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com' AND user_password = 'qwerty';
+         */
+        Cursor cursor = db.query(APP_USER_TABLE, //Table to query
+                columns,                    //columns to return
+                selection,                  //columns for the WHERE clause
+                selectionArgs,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                       //filter by row groups
+                null);                      //The sort order
+        /*
+        String checkUserNameAndPassword = "SELECT * FROM " +APP_USER_TABLE+ " WHERE " +COL_USER_NAME+ " = " + userName + " AND "
+                + COL_PASSWORD + " = " + password;
+        Cursor cursor = db.rawQuery(checkUserNameAndPassword, null);
+        */
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        db.close();
+        if (cursorCount > 0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
