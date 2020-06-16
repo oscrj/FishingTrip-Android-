@@ -10,30 +10,36 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
-import com.example.fishingtrip.models.AppUser;
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActionBar actionBar;
     private TextView homeUserName;
+    private Button btnNewTrip, btnAllTrips, btnAPI;
     private String userLoginData;
     private DBHelper dbHelper;
-    private AppUser appUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        homeUserName = findViewById(R.id.txtHeaderHome);
         loadUserData();
+        homeUserName = findViewById(R.id.txtHeaderHome);
+        btnNewTrip = findViewById(R.id.btnNewFishingtrip);
+        btnAllTrips = findViewById(R.id.btnTrips);
+        btnAPI = findViewById(R.id.btnWeather);
+
     }
 
     @Override
@@ -45,6 +51,10 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         homeUserName.setText(userLoginData);
+
+        btnNewTrip.setOnClickListener(this);
+        btnAllTrips.setOnClickListener(this);
+        btnAPI.setOnClickListener(this);
     }
 
     @Override
@@ -96,6 +106,14 @@ public class HomeActivity extends AppCompatActivity {
                 Intent profileActivity = new Intent(this, ProfileActivity.class);
                 startActivity(profileActivity);
                 break;
+            case R.id.actionBarHome:
+                Intent homeActivity = new Intent(this, HomeActivity.class);
+                startActivity(homeActivity);
+                break;
+            case R.id.actionBarTrips:
+                Intent tripsActivity = new Intent(this, FishingTripsActivity.class);
+                startActivity(tripsActivity);
+                break;
             case R.id.actionBarLogout:
                 clearUserData();
                 Intent mainActivity = new Intent(this, MainActivity.class);
@@ -128,5 +146,27 @@ public class HomeActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(USER_NAME_DATA);
         editor.apply();
+    }
+
+    /**
+     * On click listener for the buttons on HomeActivity.
+     * @param v - one of the three buttons on homeActivity.
+     */
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.btnNewFishingtrip:
+                Intent createNewTrip = new Intent(this, CreateNewTripActivity.class);
+                startActivity(createNewTrip);
+                break;
+            case R.id.btnTrips:
+                Intent allTrips = new Intent(this, FishingTripsActivity.class);
+                startActivity(allTrips);
+                break;
+            case R.id.btnWeather:
+                Toast.makeText(this, "Not yet implemented!", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 }

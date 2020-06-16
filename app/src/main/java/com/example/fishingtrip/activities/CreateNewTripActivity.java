@@ -10,21 +10,41 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.fishingtrip.R;
+import com.example.fishingtrip.databas.DBHelper;
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
 
-public class FishingTripsActivity extends AppCompatActivity {
+public class CreateNewTripActivity extends AppCompatActivity {
 
-    private ActionBar actionBar;
+    private Spinner fishingMethod, waterType;
+    private String inputFishingMethod, inputWaterType;
+    private TextView inputLocation;
+    private Button btnAddTrip;
     private String userLoginData;
+    private ActionBar actionBar;
+    private DBHelper dbHelper;
+    private ArrayAdapter adapterMethod, adapterWaterType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fishing_trips);
+        setContentView(R.layout.activity_create_new_trip);
+
+        loadUserData(); // Get Logged in user data.
+        fishingMethod = findViewById(R.id.spinFishingMethod);
+        waterType = findViewById(R.id.spinWaterType);
+        inputLocation = findViewById(R.id.inputFishingLocation);
+        btnAddTrip = findViewById(R.id.btnAddFishingTrip);
+        dbHelper = new DBHelper(this);
     }
 
     @Override
@@ -35,6 +55,22 @@ public class FishingTripsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        getInputFromFishingMethod();
+        getInputFromWaterType();
+
+        btnAddTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //  Save trip to DataBase.......
+
+                // send new trip id, and Location with INTENT...
+
+            }
+        });
+
+
     }
 
     @Override
@@ -62,6 +98,7 @@ public class FishingTripsActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         actionBar = getSupportActionBar();
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
@@ -125,5 +162,45 @@ public class FishingTripsActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(USER_NAME_DATA);
         editor.apply();
+    }
+
+    /**
+     *  Create Spinner fishingMethod.
+     *  Get input from Spinner fishingMethod and set selected value to inputFishingMethod.
+     */
+    private void getInputFromFishingMethod() {
+        adapterMethod = ArrayAdapter.createFromResource(this, R.array.fishingMethod, android.R.layout.simple_spinner_item);
+        fishingMethod.setAdapter(adapterMethod);
+        fishingMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                inputFishingMethod = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    /**
+     *  Create Spinner waterType.
+     *  Get input from Spinner WaterType and set selected value to inputWaterType.
+     */
+    private void getInputFromWaterType() {
+        adapterWaterType = ArrayAdapter.createFromResource(this, R.array.watherType, android.R.layout.simple_spinner_item);
+        waterType.setAdapter(adapterWaterType);
+        waterType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                inputWaterType = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 }

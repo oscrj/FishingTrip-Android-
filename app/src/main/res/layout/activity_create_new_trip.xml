@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".activities.CreateNewTripActivity">
+
+    <TextView
+        android:id="@+id/txt_create_trip_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/txt_header_create_trip"
+        android:textColor="@color/colorText"
+        android:textSize="24sp"
+        app:fontFamily="sans-serif-medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinFishingMethod"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@color/colorViewBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_create_trip_header" />
+
+    <Spinner
+        android:id="@+id/spinWaterType"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorViewBackground"
+        app:layout_constraintEnd_toEndOf="@+id/spinFishingMethod"
+        app:layout_constraintStart_toStartOf="@+id/spinFishingMethod"
+        app:layout_constraintTop_toBottomOf="@+id/spinFishingMethod" />
+
+    <EditText
+        android:id="@+id/inputFishingLocation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/hint_location"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        android:backgroundTint="@color/colorText"
+        app:layout_constraintEnd_toEndOf="@+id/spinWaterType"
+        app:layout_constraintStart_toStartOf="@+id/spinWaterType"
+        app:layout_constraintTop_toBottomOf="@+id/spinWaterType"
+        android:autofillHints="" />
+
+    <Button
+        android:id="@+id/btnAddFishingTrip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorViewBackground"
+        android:text="@string/btn_add_fishing_trip"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="@+id/inputFishingLocation"
+        app:layout_constraintStart_toStartOf="@+id/inputFishingLocation"
+        app:layout_constraintTop_toBottomOf="@+id/inputFishingLocation" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -85,6 +85,14 @@ public class ProfileActivity extends AppCompatActivity {
                 Intent profileActivity = new Intent(this, ProfileActivity.class);
                 startActivity(profileActivity);
                 break;
+            case R.id.actionBarHome:
+                Intent homeActivity = new Intent(this, HomeActivity.class);
+                startActivity(homeActivity);
+                break;
+            case R.id.actionBarTrips:
+                Intent tripsActivity = new Intent(this, FishingTripsActivity.class);
+                startActivity(tripsActivity);
+                break;
             case R.id.actionBarLogout:
                 clearUserData();
                 Intent mainActivity = new Intent(this, MainActivity.class);

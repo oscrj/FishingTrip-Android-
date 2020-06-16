@@ -8,6 +8,14 @@
 
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/actionBarHome"
+        android:title="@string/txt_header_home"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/actionBarTrips"
+        android:title="@string/all_fishing_trips"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/actionBarLogout"
         android:title="@string/btn_logout"
         app:showAsAction="never" />
