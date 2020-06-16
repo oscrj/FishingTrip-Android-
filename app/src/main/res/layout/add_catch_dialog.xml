@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackground">
+
+    <Spinner
+        android:id="@+id/spinSpecies"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/colorViewBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/inputLength"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/hint_length"
+        android:inputType="numberDecimal"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        android:backgroundTint="@color/colorText"
+        app:layout_constraintEnd_toEndOf="@+id/spinSpecies"
+        app:layout_constraintStart_toStartOf="@+id/spinSpecies"
+        app:layout_constraintTop_toBottomOf="@+id/spinSpecies"
+        android:autofillHints="" tools:targetApi="lollipop"/>
+
+    <EditText
+        android:id="@+id/inputWeight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/hint_weight"
+        android:inputType="numberDecimal"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        android:backgroundTint="@color/colorText"
+        app:layout_constraintEnd_toEndOf="@+id/inputLength"
+        app:layout_constraintStart_toStartOf="@+id/inputLength"
+        app:layout_constraintTop_toBottomOf="@+id/inputLength"
+        android:autofillHints="" tools:targetApi="lollipop"/>
+
+    <Button
+        android:id="@+id/btnAddCatchSubmit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorAccent"
+        android:text="@string/add_catch"
+        android:textColor="@color/colorText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/inputWeight"
+        app:layout_constraintStart_toStartOf="@+id/inputWeight"
+        app:layout_constraintTop_toBottomOf="@+id/inputWeight" />
+</androidx.constraintlayout.widget.ConstraintLayout>

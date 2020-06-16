@@ -2,15 +2,22 @@ package com.example.fishingtrip.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.fishingtrip.R;
@@ -18,13 +25,19 @@ import com.example.fishingtrip.R;
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
 
-public class NewTripActivity extends AppCompatActivity {
+public class NewTripActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActionBar actionBar;
     private String userLoginData;
     private TextView txtLocation;
     private Button btnAddCatch, btnEndTrip;
     private Intent getFishingTripData;
+
+    private EditText inputLength, inputWeight;
+    private Button btnAddCatchSubmit;
+    private Spinner species;
+    private String userInputSpecies;
+    private ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +49,11 @@ public class NewTripActivity extends AppCompatActivity {
         btnAddCatch = findViewById(R.id.btnAddCatch);
         btnEndTrip = findViewById(R.id.btnEndTrip);
 
+        species = findViewById(R.id.spinSpecies);
+        inputLength = findViewById(R.id.inputLength);
+        inputWeight = findViewById(R.id.inputWeight);
+        btnAddCatchSubmit = findViewById(R.id.btnAddCatchSubmit);
+
     }
 
     @Override
@@ -46,9 +64,10 @@ public class NewTripActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         setHeaderToLocation();
 
+        btnAddCatch.setOnClickListener(this);
+        btnEndTrip.setOnClickListener(this);
     }
 
     @Override
@@ -148,4 +167,62 @@ public class NewTripActivity extends AppCompatActivity {
         getFishingTripData = getIntent();
         txtLocation.setText(getFishingTripData.getStringExtra("FISHING_TRIP_LOCATION"));
     }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.btnAddCatch:
+                addCatchDialog();
+                break;
+            case R.id.btnEndTrip:
+                break;
+        }
+    }
+
+    private void addCatchDialog() {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.add_catch_dialog, null);
+
+        alertDialogBuilder.setView(dialogView);
+
+        final AlertDialog addCatchDialog = alertDialogBuilder.create();
+        addCatchDialog.show();
+
+        //getInputFromSpecies();
+
+        btnAddCatchSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Add catch to database....
+
+            }
+        });
+
+    }
+
+    /**
+     *  Create Spinner species.
+     *  Get input from Spinner species and set selected value to
+     */
+    private void getInputFromSpecies() {
+        adapter = ArrayAdapter.createFromResource(this, R.array.species, android.R.layout.simple_spinner_item);
+        species.setAdapter(adapter);
+        species.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                userInputSpecies = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+
 }

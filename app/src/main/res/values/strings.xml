@@ -10,6 +10,8 @@
     <string name="hint_last_name">Last name</string>
     <string name="hint_email">email</string>
     <string name="hint_location">Fishing Location</string>
+    <string name="hint_length">Length</string>
+    <string name="hint_weight">Weight</string>
     <string name="txt_header_profile">Profile</string>
     <string name="txt_header_home">Home</string>
     <string name="txt_header_register">Register New User</string>
@@ -31,6 +33,13 @@
         <item>Lake</item>
         <item>River</item>
         <item>Ocean</item>
+    </string-array>
+    
+    <string-array name="species">
+        <item>Perch</item>
+        <item>Northern Pike</item>
+        <item>Zander</item>
+        <item>Salmon</item>
     </string-array>
 
 </resources>
