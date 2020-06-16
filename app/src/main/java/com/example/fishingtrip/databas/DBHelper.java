@@ -8,14 +8,22 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 import com.example.fishingtrip.models.AppUser;
+import com.example.fishingtrip.models.FishingTrip;
 
 import static com.example.fishingtrip.constants.QueryMessages.APP_USER_TABLE;
+import static com.example.fishingtrip.constants.QueryMessages.COL_APP_USER;
 import static com.example.fishingtrip.constants.QueryMessages.COL_EMAIL;
 import static com.example.fishingtrip.constants.QueryMessages.COL_FIRST_NAME;
+import static com.example.fishingtrip.constants.QueryMessages.COL_FISHING_METHOD;
+import static com.example.fishingtrip.constants.QueryMessages.COL_FISHING_TRIP_ID;
+import static com.example.fishingtrip.constants.QueryMessages.COL_IS_ACTIVE;
 import static com.example.fishingtrip.constants.QueryMessages.COL_LAST_NAME;
+import static com.example.fishingtrip.constants.QueryMessages.COL_LOCATION;
 import static com.example.fishingtrip.constants.QueryMessages.COL_PASSWORD;
 import static com.example.fishingtrip.constants.QueryMessages.COL_USER_ID;
 import static com.example.fishingtrip.constants.QueryMessages.COL_USER_NAME;
+import static com.example.fishingtrip.constants.QueryMessages.COL_WATER_TYPE;
+import static com.example.fishingtrip.constants.QueryMessages.FISHING_TRIP_TABLE;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -26,9 +34,14 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //  Create APP_USER_TABLE in database.
-        String createAppUserTable = "CREATE TABLE " + APP_USER_TABLE + " (" + COL_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_USER_NAME + " TEXT, "
+        String createAppUserTable = "CREATE TABLE " + APP_USER_TABLE + " (" + COL_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_USER_NAME + " TEXT NOT NULL UNIQUE, "
                 + COL_PASSWORD + " TEXT, " + COL_FIRST_NAME + " TEXT, " + COL_LAST_NAME + " TEXT, " + COL_EMAIL + " TEXT)";
         db.execSQL(createAppUserTable);
+
+        // Create FISHING_TRIP_TABLE
+        String createFishingTrip = "CREATE TABLE " + FISHING_TRIP_TABLE + " (" + COL_FISHING_TRIP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_FISHING_METHOD + " TEXT, "
+                + COL_WATER_TYPE + " TEXT, " + COL_LOCATION + " TEXT, " + COL_APP_USER + " TEXT, " + COL_IS_ACTIVE +  " BOOL)";
+        db.execSQL(createFishingTrip);
     }
 
     @Override
@@ -78,8 +91,6 @@ public class DBHelper extends SQLiteOpenHelper {
             tempAppUser = new AppUser(cursor.getInt(cursor.getColumnIndex(COL_USER_ID)), cursor.getString(cursor.getColumnIndex(COL_USER_NAME)),
                     cursor.getString(cursor.getColumnIndex(COL_PASSWORD)), cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME)),
                     cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)), cursor.getString(cursor.getColumnIndex(COL_EMAIL)));
-        }else{
-            throw new IllegalArgumentException("User not found!");
         }
         cursor.close();
         return tempAppUser;
@@ -129,4 +140,30 @@ public class DBHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    /**
+     * Add new fishing trip to database
+     * @param fishingTrip - created fishingTrip to be added to database.
+     * @return return true if fishingTrip was successfully inserted to database. If not, false is return to indicate that fishingTrip
+     * was not inserted to database.
+     */
+    public boolean addFishingTrip(FishingTrip fishingTrip){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_FISHING_METHOD, fishingTrip.getFishingMethod());
+        contentValues.put(COL_WATER_TYPE, fishingTrip.getWaterType());
+        contentValues.put(COL_LOCATION, fishingTrip.getLocation());
+        contentValues.put(COL_APP_USER, fishingTrip.getAppUser());
+        contentValues.put(COL_IS_ACTIVE, fishingTrip.isActive());
+
+        long insertStatus = db.insert(FISHING_TRIP_TABLE, null, contentValues);
+        db.close();
+        if(insertStatus == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 }

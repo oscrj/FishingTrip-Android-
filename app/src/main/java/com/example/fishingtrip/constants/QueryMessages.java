@@ -13,4 +13,15 @@ public class QueryMessages {
 
     // FishingTrip
 
+    public static final String FISHING_TRIP_TABLE = "FISHING_TRIP_TABLE";
+    public static final String COL_FISHING_TRIP_ID = "ID";
+    public static final String COL_FISHING_METHOD = "FISHING_METHOD";
+    public static final String COL_WATER_TYPE = "WATER_TYPE";
+    public static final String COL_LOCATION = "LOCATION";
+    public static final String COL_APP_USER = "APP_USER";
+    public static final String COL_IS_ACTIVE = "IS_ACTIVE";
+
+    //  Catch
+
+
 }

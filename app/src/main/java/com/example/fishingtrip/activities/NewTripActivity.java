@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.fishingtrip.R;
 
@@ -20,11 +22,20 @@ public class NewTripActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
     private String userLoginData;
+    private TextView txtLocation;
+    private Button btnAddCatch, btnEndTrip;
+    private Intent getFishingTripData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_trip);
+
+        loadUserData();
+        txtLocation = findViewById(R.id.txtHeaderFishingTrip);
+        btnAddCatch = findViewById(R.id.btnAddCatch);
+        btnEndTrip = findViewById(R.id.btnEndTrip);
+
     }
 
     @Override
@@ -35,6 +46,9 @@ public class NewTripActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        setHeaderToLocation();
+
     }
 
     @Override
@@ -125,5 +139,13 @@ public class NewTripActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(USER_NAME_DATA);
         editor.apply();
+    }
+
+    /**
+     *  Set Header to trip location.
+     */
+    private void setHeaderToLocation() {
+        getFishingTripData = getIntent();
+        txtLocation.setText(getFishingTripData.getStringExtra("FISHING_TRIP_LOCATION"));
     }
 }

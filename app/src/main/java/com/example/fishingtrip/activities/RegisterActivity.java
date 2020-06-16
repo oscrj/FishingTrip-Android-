@@ -1,8 +1,10 @@
 package com.example.fishingtrip.activities;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -67,7 +69,18 @@ public class RegisterActivity extends AppCompatActivity {
                     startActivity(loginActivity);
 
                 }else{
-                    Toast.makeText(RegisterActivity.this, "User was not registered", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(RegisterActivity.this);
+                    alertDialogBuilder.setMessage("User was NOT added!");
+
+                    alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent registerActivity = new Intent(RegisterActivity.this, RegisterActivity.class);
+                            startActivity(registerActivity);
+                        }
+                    });
+                    AlertDialog addedUserFailed = alertDialogBuilder.create();
+                    addedUserFailed.show();
                 }
             }
         });

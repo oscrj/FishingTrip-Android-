@@ -2,8 +2,10 @@ package com.example.fishingtrip.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
+import com.example.fishingtrip.models.FishingTrip;
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
@@ -63,10 +66,36 @@ public class CreateNewTripActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //  Save trip to DataBase.......
+                if (inputLocation.getText().toString().isEmpty()){
+                    inputLocation.setText("Secret Location");
+                }
 
-                // send new trip id, and Location with INTENT...
+                FishingTrip newFishingTrip = new FishingTrip(-1, inputFishingMethod, inputWaterType, inputLocation.getText().toString(),
+                        userLoginData, true);
+                //  Save trip to DataBase.
+                boolean status = dbHelper.addFishingTrip(newFishingTrip);
 
+                if (status){
+                    Intent newFishingTripActivity = new Intent(CreateNewTripActivity.this, NewTripActivity.class);
+                    // Send newTripId, and Location with INTENT to later connect it to catches.
+                    newFishingTripActivity.putExtra("FISHING_TRIP_ID",newFishingTrip.getFishingTripId());
+                    newFishingTripActivity.putExtra("FISHING_TRIP_LOCATION", newFishingTrip.getLocation());
+                    startActivity(newFishingTripActivity);
+
+                }else{
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateNewTripActivity.this);
+                    alertDialogBuilder.setMessage("Your Trip was NOT added!");
+
+                    alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent createNewTripActivity = new Intent(CreateNewTripActivity.this, CreateNewTripActivity.class);
+                            startActivity(createNewTripActivity);
+                        }
+                    });
+                    AlertDialog addedTripFailed = alertDialogBuilder.create();
+                    addedTripFailed.show();
+                }
             }
         });
 
