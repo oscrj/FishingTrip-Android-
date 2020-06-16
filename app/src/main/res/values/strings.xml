@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">FishingTrip</string>
     <string name="btn_login">Login</string>
+    <string name="btn_logout">Logout</string>
     <string name="btn_register">Register</string>
     <string name="hint_username">username</string>
     <string name="hint_password">password</string>

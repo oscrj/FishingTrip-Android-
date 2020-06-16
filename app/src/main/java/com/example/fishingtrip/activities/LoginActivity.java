@@ -2,8 +2,10 @@ package com.example.fishingtrip.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -130,9 +132,20 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(home);
                             }
                         });
-                    }else
-                        btnLogin.setEnabled(false);
+                    }else{
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+                        alertDialogBuilder.setMessage("Wrong Username or password!");
 
+                        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent loginActivity = new Intent(LoginActivity.this, LoginActivity.class);
+                                startActivity(loginActivity);
+                            }
+                        });
+                        AlertDialog loginFailed = alertDialogBuilder.create();
+                        loginFailed.show();
+                    }
                 }
             });
 
@@ -157,8 +170,18 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(home);
 
         }else{
-            btnLogin.setEnabled(false);
-            Toast.makeText(LoginActivity.this, "User not Found!", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
+            alertDialogBuilder.setMessage("Wrong Username or password!");
+
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent loginActivity = new Intent(LoginActivity.this, LoginActivity.class);
+                    startActivity(loginActivity);
+                }
+            });
+            AlertDialog loginFailed = alertDialogBuilder.create();
+            loginFailed.show();
         }
     }
 

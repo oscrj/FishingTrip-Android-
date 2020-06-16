@@ -92,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    /**
+     *  Create Actionbar menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         actionBar = getSupportActionBar();
@@ -106,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     *  On clicked item in actionbar selector.
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.actionBarRegister) {

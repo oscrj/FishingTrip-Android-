@@ -1,5 +1,6 @@
 package com.example.fishingtrip.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.fishingtrip.R;
@@ -31,9 +33,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         homeUserName = findViewById(R.id.txtHeaderHome);
-
         loadUserData();
-        getAppUser();
     }
 
     @Override
@@ -67,6 +67,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    /**
+     *  Create Actionbar menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -83,8 +86,19 @@ public class HomeActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void getAppUser(){
-         //appUser = dbHelper.findAppUserByUserName(userLoginData);
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.actionBarProfile:
+                break;
+            case R.id.actionBarLogout:
+                clearUserData();
+                Intent mainActivity = new Intent(this, MainActivity.class);
+                startActivity(mainActivity);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -106,6 +120,9 @@ public class HomeActivity extends AppCompatActivity {
      * clear data if user logout.
      */
     public void clearUserData(){
-
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_LOGIN, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(USER_NAME_DATA);
+        editor.apply();
     }
 }
