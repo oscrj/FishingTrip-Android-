@@ -86,11 +86,15 @@ public class HomeActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     *  On clicked item in actionbar selector.
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()){
             case R.id.actionBarProfile:
+                Intent profileActivity = new Intent(this, ProfileActivity.class);
+                startActivity(profileActivity);
                 break;
             case R.id.actionBarLogout:
                 clearUserData();

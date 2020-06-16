@@ -1,30 +1,25 @@
 package com.example.fishingtrip.models;
 
-import java.time.LocalDate;
-
 public class FishingTrip {
 
     private int fishingTripId;
     private String fishingMethod;
     private String waterType;
     private String location;
-    private LocalDate date;
-    private AppUser appUser;
+    private String appUser;
+    private boolean isActive;
 
-    public FishingTrip(int fishingTripId, String fishingMethod, String waterType, String location, LocalDate date) {
+    public FishingTrip(int fishingTripId, String fishingMethod, String waterType, String location, String appUser, boolean isActive) {
         this.fishingTripId = fishingTripId;
         this.fishingMethod = fishingMethod;
         this.waterType = waterType;
         this.location = location;
-        this.date = date;
+        this.appUser = appUser;
+        this.isActive = isActive;
     }
 
     public int getFishingTripId() {
         return fishingTripId;
-    }
-
-    public void setFishingTripId(int fishingTripId) {
-        this.fishingTripId = fishingTripId;
     }
 
     public String getFishingMethod() {
@@ -51,20 +46,20 @@ public class FishingTrip {
         this.location = location;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public AppUser getAppUser() {
+    public String getAppUser() {
         return appUser;
     }
 
-    public void setAppUser(AppUser appUser) {
+    public void setAppUser(String appUser) {
         this.appUser = appUser;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     @Override
@@ -74,8 +69,8 @@ public class FishingTrip {
                 ", fishingMethod='" + fishingMethod + '\'' +
                 ", waterType='" + waterType + '\'' +
                 ", location='" + location + '\'' +
-                ", date=" + date +
-                ", appUser=" + appUser +
+                ", appUser='" + appUser + '\'' +
+                ", isActive=" + isActive +
                 '}';
     }
 }

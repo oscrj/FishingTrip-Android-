@@ -1,21 +1,25 @@
 package com.example.fishingtrip.models;
 
-import java.time.LocalDateTime;
-
 public class Catch {
 
+    private String catchId;
     private String species;
     private double length;
     private double weight;
-    private LocalDateTime timeStamp;
-    private FishingTrip fishingTrip;
+    private String fishingTrip;
 
-    public Catch(String species, double length, double weight, LocalDateTime timeStamp) {
+    public Catch(String catchId, String species, double length, double weight, String fishingTrip) {
+        this.catchId = catchId;
         this.species = species;
         this.length = length;
         this.weight = weight;
-        this.timeStamp = timeStamp;
+        this.fishingTrip = fishingTrip;
     }
+
+    public String getCatchId() {
+        return catchId;
+    }
+
 
     public String getSpecies() {
         return species;
@@ -41,30 +45,22 @@ public class Catch {
         this.weight = weight;
     }
 
-    public LocalDateTime getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(LocalDateTime timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public FishingTrip getFishingTrip() {
+    public String getFishingTrip() {
         return fishingTrip;
     }
 
-    public void setFishingTrip(FishingTrip fishingTrip) {
+    public void setFishingTrip(String fishingTrip) {
         this.fishingTrip = fishingTrip;
     }
 
     @Override
     public String toString() {
         return "Catch{" +
-                "species='" + species + '\'' +
+                "catchId='" + catchId + '\'' +
+                ", species='" + species + '\'' +
                 ", length=" + length +
                 ", weight=" + weight +
-                ", timeStamp=" + timeStamp +
-                ", fishingTrip=" + fishingTrip +
+                ", fishingTrip='" + fishingTrip + '\'' +
                 '}';
     }
 }
