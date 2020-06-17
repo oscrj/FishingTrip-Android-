@@ -33,9 +33,6 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     private Button btnAddCatch, btnEndTrip;
     private Intent getFishingTripData;
 
-    private EditText inputLength, inputWeight;
-    private Button btnAddCatchSubmit;
-    private Spinner species;
     private String userInputSpecies;
     private ArrayAdapter adapter;
 
@@ -48,11 +45,6 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         txtLocation = findViewById(R.id.txtHeaderFishingTrip);
         btnAddCatch = findViewById(R.id.btnAddCatch);
         btnEndTrip = findViewById(R.id.btnEndTrip);
-
-        species = findViewById(R.id.spinSpecies);
-        inputLength = findViewById(R.id.inputLength);
-        inputWeight = findViewById(R.id.inputWeight);
-        btnAddCatchSubmit = findViewById(R.id.btnAddCatchSubmit);
 
     }
 
@@ -182,25 +174,36 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
 
     private void addCatchDialog() {
 
+        //  FIX AlertDialog to add catch...
+
+        /*
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.add_catch_dialog, null);
 
         alertDialogBuilder.setView(dialogView);
 
+        Spinner species;
+        EditText inputLength, inputWeight;
+        Button btnAddCatchSubmit;
+
+        species = findViewById(R.id.spinSpecies);
+        inputLength = findViewById(R.id.inputLength);
+        inputWeight = findViewById(R.id.inputWeight);
+        btnAddCatchSubmit = findViewById(R.id.btnAddCatchSubmit);
+
         final AlertDialog addCatchDialog = alertDialogBuilder.create();
         addCatchDialog.show();
 
-        //getInputFromSpecies();
+        getInputFromSpecies(species);
 
         btnAddCatchSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Add catch to database....
-
             }
         });
+        */
 
     }
 
@@ -208,7 +211,7 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
      *  Create Spinner species.
      *  Get input from Spinner species and set selected value to
      */
-    private void getInputFromSpecies() {
+    private void getInputFromSpecies(Spinner species) {
         adapter = ArrayAdapter.createFromResource(this, R.array.species, android.R.layout.simple_spinner_item);
         species.setAdapter(adapter);
         species.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

@@ -64,13 +64,7 @@ public class AppUser {
 
     @Override
     public String toString() {
-        return "AppUser{" +
-                "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email +
-                '}';
+        return "ID: " + userId + " UserName: " + userName + ", FirstName: " + firstName + " " + lastName + ", Email: " + email;
     }
 
     public String userDataToString(){

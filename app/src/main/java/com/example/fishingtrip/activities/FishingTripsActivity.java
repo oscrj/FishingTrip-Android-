@@ -12,6 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.fishingtrip.R;
+import com.example.fishingtrip.databas.DBHelper;
+
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
@@ -20,11 +22,15 @@ public class FishingTripsActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
     private String userLoginData;
+    private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fishing_trips);
+        loadUserData();
+
+        dbHelper = new DBHelper(this);
     }
 
     @Override
@@ -126,4 +132,5 @@ public class FishingTripsActivity extends AppCompatActivity {
         editor.remove(USER_NAME_DATA);
         editor.apply();
     }
+
 }

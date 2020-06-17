@@ -10,6 +10,9 @@ import androidx.annotation.Nullable;
 import com.example.fishingtrip.models.AppUser;
 import com.example.fishingtrip.models.FishingTrip;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.example.fishingtrip.constants.QueryMessages.APP_USER_TABLE;
 import static com.example.fishingtrip.constants.QueryMessages.COL_APP_USER;
 import static com.example.fishingtrip.constants.QueryMessages.COL_EMAIL;
@@ -74,6 +77,30 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public List<AppUser> getAllUsers() throws IllegalArgumentException{
+        SQLiteDatabase db = getReadableDatabase();
+        List<AppUser> userList = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + APP_USER_TABLE, null);
+
+        if (cursor.moveToFirst()){
+            do {
+                AppUser tempUser = new AppUser(cursor.getInt(cursor.getColumnIndex(COL_USER_ID)),
+                        cursor.getString(cursor.getColumnIndex(COL_USER_NAME)),
+                        cursor.getString(cursor.getColumnIndex(COL_PASSWORD)),
+                        cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME)),
+                        cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)),
+                        cursor.getString(cursor.getColumnIndex(COL_EMAIL)));
+                userList.add(tempUser);
+
+            }while (cursor.moveToNext());
+        }else{
+            throw new IllegalArgumentException("Users Not Found!");
+        }
+        db.close();
+        cursor.close();
+        return userList;
+    }
     /**
      * Find user by specific userName.
      * @param userName - Find AppUser in database that match userName.
@@ -164,6 +191,37 @@ public class DBHelper extends SQLiteOpenHelper {
         }else{
             return true;
         }
+    }
+
+    public List<FishingTrip> getAllFishingTripByUserName(String userName){
+
+        SQLiteDatabase db = getReadableDatabase();
+        List<FishingTrip> fishingTrips = new ArrayList<>();
+
+        String getAllFishingTripByUserName = "SELECT * FROM " + FISHING_TRIP_TABLE;
+        Cursor cursor = db.rawQuery(getAllFishingTripByUserName, null);
+
+        if (cursor.moveToFirst()){
+            do{
+                boolean isActive = cursor.getInt(cursor.getColumnIndex(COL_IS_ACTIVE)) == 1 ? true:false;
+                FishingTrip tempFishingTrip = new FishingTrip(cursor.getInt(cursor.getColumnIndex(COL_FISHING_TRIP_ID)),
+                        cursor.getString(cursor.getColumnIndex(COL_FISHING_METHOD)),
+                        cursor.getString(cursor.getColumnIndex(COL_WATER_TYPE)),
+                        cursor.getString(cursor.getColumnIndex(COL_LOCATION)),
+                        cursor.getString(cursor.getColumnIndex(COL_USER_NAME)),
+                        isActive);
+
+                fishingTrips.add(tempFishingTrip);
+
+            }while (cursor.moveToNext());
+
+        }else {
+            throw new IllegalArgumentException("Didn't find any Trips!! ");
+        }
+
+        db.close();
+        cursor.close();
+        return fishingTrips;
     }
 
 }

@@ -2,6 +2,8 @@
     <string name="app_name">FishingTrip</string>
     <string name="btn_login">Login</string>
     <string name="btn_logout">Logout</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_update">Update</string>
     <string name="btn_register">Register</string>
     <string name="btn_add_fishing_trip">Add Fishing Trip</string>
     <string name="hint_username">username</string>
@@ -12,7 +14,9 @@
     <string name="hint_location">Fishing Location</string>
     <string name="hint_length">Length</string>
     <string name="hint_weight">Weight</string>
+    <string name="row_fishing_trip">Fishing Trip Row</string>
     <string name="txt_header_profile">Profile</string>
+    <string name="txt_header_profile_develop">This page is under development..</string>
     <string name="txt_header_home">Home</string>
     <string name="txt_header_register">Register New User</string>
     <string name="txt_header_create_trip">Create New Fishing Trip</string>

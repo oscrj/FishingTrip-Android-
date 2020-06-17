@@ -7,11 +7,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.example.fishingtrip.R;
+import com.example.fishingtrip.databas.DBHelper;
+import com.example.fishingtrip.models.AppUser;
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
@@ -20,11 +26,18 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
     private String userLoginData;
+    private ListView listOfAppUsers;
+    private ArrayAdapter arrayAdapter;
+    private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        loadUserData();
+        listOfAppUsers = findViewById(R.id.listAppUsers);
+        dbHelper = new DBHelper(this);
     }
 
     @Override
@@ -35,6 +48,10 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // Set DATA to listView.
+        updateViews();
+        // Set context menu to listView
+        registerForContextMenu(listOfAppUsers);
     }
 
     @Override
@@ -103,6 +120,35 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     /**
+     * Create Context Menu.
+     */
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.context_menu, menu);
+    }
+
+    /**
+     *  Set onItemSelected listener.
+     */
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.menuItemUpdate:
+                updateAppUser();
+                break;
+            case R.id.menuItemDelete:
+                deleteAppUser();
+                break;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    /**
      * SAVE User login session.
      */
     public void saveUserDATA(){
@@ -125,5 +171,25 @@ public class ProfileActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(USER_NAME_DATA);
         editor.apply();
+    }
+
+    /**
+     *  Update listView listAppUser.
+     */
+    public void updateViews() {
+        arrayAdapter = new ArrayAdapter<AppUser>(this, android.R.layout.simple_list_item_1, dbHelper.getAllUsers());
+        listOfAppUsers.setAdapter(arrayAdapter);
+    }
+
+    private void updateAppUser() {
+        // Update user...
+
+        updateViews();
+    }
+
+    private void deleteAppUser() {
+        // Delete user....
+
+        updateAppUser();
     }
 }

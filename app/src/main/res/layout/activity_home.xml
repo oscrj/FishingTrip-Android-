@@ -41,6 +41,7 @@
         android:background="@color/colorViewBackground"
         android:text="@string/all_fishing_trips"
         android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="@+id/btnNewFishingtrip"
         app:layout_constraintStart_toStartOf="@+id/btnNewFishingtrip"
         app:layout_constraintTop_toBottomOf="@+id/btnNewFishingtrip" />
 
@@ -52,15 +53,18 @@
         android:background="@color/colorViewBackground"
         android:text="@string/weather"
         android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="@+id/btnTrips"
         app:layout_constraintStart_toStartOf="@+id/btnTrips"
         app:layout_constraintTop_toBottomOf="@+id/btnTrips" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
+        android:id="@+id/listFishingTrips"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnWeather" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
