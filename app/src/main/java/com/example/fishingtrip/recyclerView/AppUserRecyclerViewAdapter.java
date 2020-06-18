@@ -1,6 +1,7 @@
 package com.example.fishingtrip.recyclerView;
 
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,7 @@ public class AppUserRecyclerViewAdapter extends RecyclerView.Adapter<AppUserRecy
         return listOfData.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
         private TextView title;
         private ImageView image;
@@ -68,6 +69,15 @@ public class AppUserRecyclerViewAdapter extends RecyclerView.Adapter<AppUserRecy
             title = itemView.findViewById(R.id.txtAppUserRow);
             image = itemView.findViewById(R.id.imageAppUser);
             constraintLayout = itemView.findViewById(R.id.constRowAppUser);
+            constraintLayout.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.setHeaderTitle("Selection:");
+            menu.add(this.getAdapterPosition(), 100, 0, "Update");
+            menu.add(this.getAdapterPosition(), 101, 1, "Delete");
+
         }
     }
 }

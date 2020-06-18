@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
@@ -31,6 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String userLoginData;
     private DBHelper dbHelper;
     private RecyclerView appUserRecyclerView;
+    private AppUserRecyclerViewAdapter appUserRecyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,32 +122,40 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     /**
-     * Create Context Menu.
-     */
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.context_menu, menu);
-    }
-
-    /**
-     *  Set onItemSelected listener.
+     *  Set inItemSelected on context menu.
+     * @param item - the item user clicked on.
      */
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.menuItemUpdate:
-                updateAppUser();
+            case 100:
+                updateAppUser(item);
                 break;
-            case R.id.menuItemDelete:
-                deleteAppUser();
+            case 101:
+                deleteAppUser(item);
                 break;
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    /**
+     * Update AppUser
+     * @param item - Update the selected user.
+     */
+    private void updateAppUser(MenuItem item) {
+        // Update user...
+        Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Delete AppUser
+     * @param item - Delete selected User.
+     */
+    private void deleteAppUser(MenuItem item) {
+        // Delete user....
+        Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -178,19 +188,8 @@ public class ProfileActivity extends AppCompatActivity {
      *  Set Data from database to RecyclerView.
      */
     public void setDataToRecyclerView(){
-        AppUserRecyclerViewAdapter appUserRecyclerAdapter = new AppUserRecyclerViewAdapter(this, dbHelper.getAllUsers());
+        appUserRecyclerAdapter = new AppUserRecyclerViewAdapter(this, dbHelper.getAllUsers());
         appUserRecyclerView.setAdapter(appUserRecyclerAdapter);
         appUserRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-
-    private void updateAppUser() {
-        // Update user...
-
-    }
-
-    private void deleteAppUser() {
-        // Delete user....
-
     }
 }

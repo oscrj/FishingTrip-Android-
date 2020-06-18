@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
@@ -27,6 +28,7 @@ public class FishingTripsActivity extends AppCompatActivity {
     private String userLoginData;
     private DBHelper dbHelper;
     private RecyclerView fishingTripRecyclerView;
+    FishingTripRecyclerViewAdapter recyclerViewAdapter;
 
 
     @Override
@@ -117,6 +119,33 @@ public class FishingTripsActivity extends AppCompatActivity {
     }
 
     /**
+     *  Set inItemSelected on context menu.
+     * @param item - the item user clicked on.
+     */
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case 100:
+                updateFishingTrip(item);
+                break;
+            case 101:
+                deleteFishingTrip(item);
+                break;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    private void updateFishingTrip(MenuItem item) {
+        Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+    }
+
+    private void deleteFishingTrip(MenuItem item) {
+        Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
      * SAVE User login session.
      */
     public void saveUserDATA(){
@@ -145,7 +174,7 @@ public class FishingTripsActivity extends AppCompatActivity {
      *  Set Data from database to RecyclerView.
      */
     public void setDataToRecyclerView(){
-        FishingTripRecyclerViewAdapter recyclerViewAdapter = new FishingTripRecyclerViewAdapter(this, dbHelper.getAllFishingTripByUserName(userLoginData));
+        recyclerViewAdapter = new FishingTripRecyclerViewAdapter(this, dbHelper.getAllFishingTripByUserName(userLoginData));
         fishingTripRecyclerView.setAdapter(recyclerViewAdapter);
         fishingTripRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
