@@ -77,6 +77,11 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Get all users registered in database.
+     * @return - Return a list of all AppUsers
+     * @throws IllegalArgumentException - Will be thrown if there is no users.
+     */
     public List<AppUser> getAllUsers() throws IllegalArgumentException{
         SQLiteDatabase db = getReadableDatabase();
         List<AppUser> userList = new ArrayList<>();
@@ -198,17 +203,17 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         List<FishingTrip> fishingTrips = new ArrayList<>();
 
-        String getAllFishingTripByUserName = "SELECT * FROM " + FISHING_TRIP_TABLE;
+        String getAllFishingTripByUserName = "SELECT * FROM " + FISHING_TRIP_TABLE + " WHERE " + COL_APP_USER + " = " + "'" + userName + "'";
         Cursor cursor = db.rawQuery(getAllFishingTripByUserName, null);
 
         if (cursor.moveToFirst()){
             do{
-                boolean isActive = cursor.getInt(cursor.getColumnIndex(COL_IS_ACTIVE)) == 1 ? true:false;
-                FishingTrip tempFishingTrip = new FishingTrip(cursor.getInt(cursor.getColumnIndex(COL_FISHING_TRIP_ID)),
-                        cursor.getString(cursor.getColumnIndex(COL_FISHING_METHOD)),
-                        cursor.getString(cursor.getColumnIndex(COL_WATER_TYPE)),
-                        cursor.getString(cursor.getColumnIndex(COL_LOCATION)),
-                        cursor.getString(cursor.getColumnIndex(COL_USER_NAME)),
+                boolean isActive = cursor.getInt(5) == 1 ? true:false;
+                FishingTrip tempFishingTrip = new FishingTrip(cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
                         isActive);
 
                 fishingTrips.add(tempFishingTrip);

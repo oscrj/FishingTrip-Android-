@@ -3,6 +3,8 @@ package com.example.fishingtrip.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +20,7 @@ import android.widget.ListView;
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
 import com.example.fishingtrip.models.AppUser;
+import com.example.fishingtrip.recyclerView.AppUserRecyclerViewAdapter;
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
@@ -26,9 +29,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
     private String userLoginData;
-    private ListView listOfAppUsers;
+    //private ListView listOfAppUsers;
     private ArrayAdapter arrayAdapter;
     private DBHelper dbHelper;
+    private RecyclerView appUserRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +40,12 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         loadUserData();
-        listOfAppUsers = findViewById(R.id.listAppUsers);
+
+        // Use RecyclerView instead of listView.
+        //listOfAppUsers = findViewById(R.id.listAppUsers);
+
         dbHelper = new DBHelper(this);
+        appUserRecyclerView = findViewById(R.id.listAppUser);
     }
 
     @Override
@@ -49,9 +57,11 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // Set DATA to listView.
-        updateViews();
+        //updateViews();
         // Set context menu to listView
-        registerForContextMenu(listOfAppUsers);
+        //registerForContextMenu(listOfAppUsers);
+
+        setDataToRecyclerView();
     }
 
     @Override
@@ -173,23 +183,37 @@ public class ProfileActivity extends AppCompatActivity {
         editor.apply();
     }
 
+
+    /**
+     *  Set Data from database to RecyclerView.
+     */
+    public void setDataToRecyclerView(){
+        //int[] images = new int[]{R.drawable.ic_action_menu_user, R.drawable.ic_action_menu_user, R.drawable.ic_action_menu_user};
+
+        AppUserRecyclerViewAdapter appUserRecyclerAdapter = new AppUserRecyclerViewAdapter(this, dbHelper.getAllUsers());
+        appUserRecyclerView.setAdapter(appUserRecyclerAdapter);
+        appUserRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
     /**
      *  Update listView listAppUser.
      */
+    /*
     public void updateViews() {
         arrayAdapter = new ArrayAdapter<AppUser>(this, android.R.layout.simple_list_item_1, dbHelper.getAllUsers());
         listOfAppUsers.setAdapter(arrayAdapter);
     }
+     */
 
     private void updateAppUser() {
         // Update user...
 
-        updateViews();
+        //updateViews();
     }
 
     private void deleteAppUser() {
         // Delete user....
 
-        updateAppUser();
+        //updateAppUser();
     }
 }

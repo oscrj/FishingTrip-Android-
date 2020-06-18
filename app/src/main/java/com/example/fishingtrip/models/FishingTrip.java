@@ -64,13 +64,6 @@ public class FishingTrip {
 
     @Override
     public String toString() {
-        return "FishingTrip{" +
-                "fishingTripId=" + fishingTripId +
-                ", fishingMethod='" + fishingMethod + '\'' +
-                ", waterType='" + waterType + '\'' +
-                ", location='" + location + '\'' +
-                ", appUser='" + appUser + '\'' +
-                ", isActive=" + isActive +
-                '}';
+        return fishingMethod.toUpperCase() + ", " + location + ", " + waterType;
     }
 }

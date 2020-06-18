@@ -3,6 +3,8 @@ package com.example.fishingtrip.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
+import com.example.fishingtrip.recyclerView.FishingTripRecyclerViewAdapter;
 
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
@@ -23,14 +26,17 @@ public class FishingTripsActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private String userLoginData;
     private DBHelper dbHelper;
+    private RecyclerView fishingTripRecyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fishing_trips);
-        loadUserData();
 
+        loadUserData();
         dbHelper = new DBHelper(this);
+        fishingTripRecyclerView = findViewById(R.id.listFishingTrips);
     }
 
     @Override
@@ -41,6 +47,8 @@ public class FishingTripsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        setDataToRecyclerView();
     }
 
     @Override
@@ -131,6 +139,15 @@ public class FishingTripsActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(USER_NAME_DATA);
         editor.apply();
+    }
+
+    /**
+     *  Set Data from database to RecyclerView.
+     */
+    public void setDataToRecyclerView(){
+        FishingTripRecyclerViewAdapter recyclerViewAdapter = new FishingTripRecyclerViewAdapter(this, dbHelper.getAllFishingTripByUserName(userLoginData));
+        fishingTripRecyclerView.setAdapter(recyclerViewAdapter);
+        fishingTripRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 }
