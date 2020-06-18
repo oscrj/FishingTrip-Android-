@@ -29,8 +29,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
     private String userLoginData;
-    //private ListView listOfAppUsers;
-    private ArrayAdapter arrayAdapter;
     private DBHelper dbHelper;
     private RecyclerView appUserRecyclerView;
 
@@ -40,10 +38,6 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         loadUserData();
-
-        // Use RecyclerView instead of listView.
-        //listOfAppUsers = findViewById(R.id.listAppUsers);
-
         dbHelper = new DBHelper(this);
         appUserRecyclerView = findViewById(R.id.listAppUser);
     }
@@ -56,10 +50,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Set DATA to listView.
-        //updateViews();
-        // Set context menu to listView
-        //registerForContextMenu(listOfAppUsers);
 
         setDataToRecyclerView();
     }
@@ -188,32 +178,19 @@ public class ProfileActivity extends AppCompatActivity {
      *  Set Data from database to RecyclerView.
      */
     public void setDataToRecyclerView(){
-        //int[] images = new int[]{R.drawable.ic_action_menu_user, R.drawable.ic_action_menu_user, R.drawable.ic_action_menu_user};
-
         AppUserRecyclerViewAdapter appUserRecyclerAdapter = new AppUserRecyclerViewAdapter(this, dbHelper.getAllUsers());
         appUserRecyclerView.setAdapter(appUserRecyclerAdapter);
         appUserRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    /**
-     *  Update listView listAppUser.
-     */
-    /*
-    public void updateViews() {
-        arrayAdapter = new ArrayAdapter<AppUser>(this, android.R.layout.simple_list_item_1, dbHelper.getAllUsers());
-        listOfAppUsers.setAdapter(arrayAdapter);
-    }
-     */
 
     private void updateAppUser() {
         // Update user...
 
-        //updateViews();
     }
 
     private void deleteAppUser() {
         // Delete user....
 
-        //updateAppUser();
     }
 }
