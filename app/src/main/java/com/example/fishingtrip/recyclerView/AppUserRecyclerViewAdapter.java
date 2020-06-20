@@ -63,7 +63,6 @@ public class AppUserRecyclerViewAdapter extends RecyclerView.Adapter<AppUserRecy
      */
     public void updateAppUser(int position) {
         // Update user...
-
     }
 
     /**

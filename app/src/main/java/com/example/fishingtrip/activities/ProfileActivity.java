@@ -53,7 +53,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         updateDataToRecyclerView();
     }
 
@@ -128,11 +127,9 @@ public class ProfileActivity extends AppCompatActivity {
      */
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()){
             case 100:
                 appUserRecyclerAdapter.updateAppUser(item.getGroupId());
-                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
                 break;
             case 101:
                 appUserRecyclerAdapter.deleteAppUser(item.getGroupId());

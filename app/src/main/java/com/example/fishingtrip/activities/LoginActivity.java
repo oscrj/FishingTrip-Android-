@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
@@ -42,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         userNameInput = findViewById(R.id.inputTextLoginUserName);
         passwordInput = findViewById(R.id.inputTextLoginPassword);
         btnLogin = findViewById(R.id.btnLoginSubmit);
+        dbHelper = new DBHelper(this);
     }
 
     @Override
@@ -52,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         // Makes it only possible to submit if correct value is given
         btnLogin.setEnabled(false);
         userNameInput.addTextChangedListener(loginValidation);
@@ -110,45 +109,13 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             btnLogin.setEnabled(true);
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    //verifyUserExist();
-
-                    // temporary login process....
-                    if (userNameInput.getText().toString().trim().equals("oscar") && passwordInput.getText().toString().equals("password123")){
-
-                        btnLogin.setEnabled(true);
-
-                        btnLogin.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent home = new Intent(LoginActivity.this, HomeActivity.class);
-                                userLoginData = userNameInput.getText().toString();
-                                saveUserDATA();
-                                startActivity(home);
-                            }
-                        });
-                    }else{
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-                        alertDialogBuilder.setMessage("Wrong Username or password!");
-
-                        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent loginActivity = new Intent(LoginActivity.this, LoginActivity.class);
-                                startActivity(loginActivity);
-                            }
-                        });
-                        AlertDialog loginFailed = alertDialogBuilder.create();
-                        loginFailed.show();
-                    }
+                    verifyUserExist();
                 }
             });
-
         }
 
         @Override
@@ -161,14 +128,12 @@ public class LoginActivity extends AppCompatActivity {
      * Verify that user with username and password exist in database.
      */
     public void verifyUserExist(){
-
-        if(dbHelper.checkUser(userNameInput.getText().toString().trim(), passwordInput.getText().toString().trim())){
-
+        boolean userExists = dbHelper.checkUser(userNameInput.getText().toString().trim(), passwordInput.getText().toString().trim());
+        if(userExists){
             userLoginData = userNameInput.getText().toString();
             saveUserDATA();
             Intent home = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(home);
-
         }else{
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
             alertDialogBuilder.setMessage("Wrong Username or password!");
@@ -190,10 +155,8 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void saveUserDATA(){
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_LOGIN, MODE_PRIVATE);
-
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(USER_NAME_DATA, userLoginData);
-
         editor.apply();
     }
 

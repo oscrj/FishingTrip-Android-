@@ -171,9 +171,9 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     *
-     * @param userToRemove
-     * @return
+     *  Method to remove appUser
+     * @param userToRemove - user that will be removed.
+     * @return - true or false if user was removed or not.
      */
     public boolean deleteUser(AppUser userToRemove){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -216,10 +216,8 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public List<FishingTrip> getAllFishingTripByUserName(String userName){
-
         SQLiteDatabase db = getReadableDatabase();
         List<FishingTrip> fishingTrips = new ArrayList<>();
-
         String getAllFishingTripByUserName = "SELECT * FROM " + FISHING_TRIP_TABLE + " WHERE " + COL_APP_USER + " = " + "'" + userName + "'";
         Cursor cursor = db.rawQuery(getAllFishingTripByUserName, null);
 
