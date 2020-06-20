@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -53,7 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        setDataToRecyclerView();
+        updateDataToRecyclerView();
     }
 
     @Override
@@ -130,32 +131,14 @@ public class ProfileActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case 100:
-                updateAppUser(item);
+                appUserRecyclerAdapter.updateAppUser(item.getGroupId());
+                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
                 break;
             case 101:
-                deleteAppUser(item);
+                appUserRecyclerAdapter.deleteAppUser(item.getGroupId());
                 break;
         }
-
         return super.onContextItemSelected(item);
-    }
-
-    /**
-     * Update AppUser
-     * @param item - Update the selected user.
-     */
-    private void updateAppUser(MenuItem item) {
-        // Update user...
-        Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Delete AppUser
-     * @param item - Delete selected User.
-     */
-    private void deleteAppUser(MenuItem item) {
-        // Delete user....
-        Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -187,7 +170,7 @@ public class ProfileActivity extends AppCompatActivity {
     /**
      *  Set Data from database to RecyclerView.
      */
-    public void setDataToRecyclerView(){
+    public void updateDataToRecyclerView(){
         appUserRecyclerAdapter = new AppUserRecyclerViewAdapter(this, dbHelper.getAllUsers());
         appUserRecyclerView.setAdapter(appUserRecyclerAdapter);
         appUserRecyclerView.setLayoutManager(new LinearLayoutManager(this));

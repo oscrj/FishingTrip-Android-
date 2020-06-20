@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fishingtrip.R;
+import com.example.fishingtrip.databas.DBHelper;
 import com.example.fishingtrip.models.AppUser;
 
 import java.util.List;
@@ -24,7 +25,6 @@ public class AppUserRecyclerViewAdapter extends RecyclerView.Adapter<AppUserRecy
     Context context;
 
     public AppUserRecyclerViewAdapter(Context ct, List<AppUser> titles){
-
         listOfData = titles;
         context = ct;
     }
@@ -39,7 +39,7 @@ public class AppUserRecyclerViewAdapter extends RecyclerView.Adapter<AppUserRecy
 
     @Override
     public void onBindViewHolder(@NonNull AppUserRecyclerViewAdapter.ViewHolder holder, final int position) {
-        holder.title.setText(listOfData.get(position).toString());
+        holder.title.setText(listOfData.get(position).getUserName());
 
         holder.image.setImageResource(R.drawable.ic_action_menu_user);
 
@@ -55,6 +55,31 @@ public class AppUserRecyclerViewAdapter extends RecyclerView.Adapter<AppUserRecy
     @Override
     public int getItemCount() {
         return listOfData.size();
+    }
+
+    /**
+     * Update AppUser
+     * @param position - Update the selected user.
+     */
+    public void updateAppUser(int position) {
+        // Update user...
+
+    }
+
+    /**
+     * Delete AppUser
+     * @param position - Delete selected User on position in List<AppUser>/>.
+     */
+    public void deleteAppUser(int position) {
+        DBHelper dbHelper = new DBHelper(context);
+        boolean status = dbHelper.deleteUser(listOfData.get(position));
+        if (status){
+            listOfData.remove(position);
+            notifyDataSetChanged();
+            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context, "User was NOT Deleted!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {

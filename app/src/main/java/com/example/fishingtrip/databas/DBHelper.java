@@ -80,9 +80,8 @@ public class DBHelper extends SQLiteOpenHelper {
     /**
      * Get all users registered in database.
      * @return - Return a list of all AppUsers
-     * @throws IllegalArgumentException - Will be thrown if there is no users.
      */
-    public List<AppUser> getAllUsers() throws IllegalArgumentException{
+    public List<AppUser> getAllUsers(){
         SQLiteDatabase db = getReadableDatabase();
         List<AppUser> userList = new ArrayList<>();
 
@@ -100,7 +99,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
             }while (cursor.moveToNext());
         }else{
-            throw new IllegalArgumentException("Users Not Found!");
+            // throw new IllegalArgumentException("Users Not Found!");
         }
         db.close();
         cursor.close();
@@ -111,12 +110,10 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param userName - Find AppUser in database that match userName.
      * @return Will return the AppUser with matching userName.
      */
-    public AppUser findAppUserByUserName(String userName) throws IllegalArgumentException{
-        AppUser tempAppUser = null;
-
+    public AppUser findAppUserByUserName(String userName) {
+        AppUser tempAppUser = new AppUser(-1, null, null, null,null, null);
         SQLiteDatabase db = getReadableDatabase();
-
-        String getUserWithUsername = "SELECT * FROM " +APP_USER_TABLE+ " WHERE " +COL_USER_NAME+ " = " + userName;
+        String getUserWithUsername = "SELECT * FROM " +APP_USER_TABLE+ " WHERE " +COL_USER_NAME+ " = " + "'" + userName + "'";
         Cursor cursor = db.rawQuery(getUserWithUsername, null);
 
         if (cursor.moveToFirst()){
@@ -174,6 +171,26 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
+     *
+     * @param userToRemove
+     * @return
+     */
+    public boolean deleteUser(AppUser userToRemove){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteStudentQuery = "DELETE FROM " + APP_USER_TABLE + " WHERE " + COL_USER_ID + " = " + userToRemove.getUserId();
+        Cursor cursor = db.rawQuery(deleteStudentQuery, null);
+        if (cursor.moveToFirst()){
+            db.close();
+            cursor.close();
+            return false;
+        }else {
+            db.close();
+            cursor.close();
+            return true;
+        }
+    }
+
+    /**
      * Add new fishing trip to database
      * @param fishingTrip - created fishingTrip to be added to database.
      * @return return true if fishingTrip was successfully inserted to database. If not, false is return to indicate that fishingTrip
@@ -221,7 +238,7 @@ public class DBHelper extends SQLiteOpenHelper {
             }while (cursor.moveToNext());
 
         }else {
-            throw new IllegalArgumentException("Didn't find any Trips!! ");
+            //throw new IllegalArgumentException("Didn't find any Trips!! ");
         }
 
         db.close();
