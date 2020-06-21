@@ -1,10 +1,14 @@
 package com.example.fishingtrip.recyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +18,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fishingtrip.R;
+import com.example.fishingtrip.activities.ProfileActivity;
 import com.example.fishingtrip.databas.DBHelper;
 import com.example.fishingtrip.models.AppUser;
 
@@ -63,8 +68,43 @@ public class AppUserRecyclerViewAdapter extends RecyclerView.Adapter<AppUserRecy
      * Update AppUser
      * @param position - Update the selected user.
      */
-    public void updateAppUser(int position) {
-        // Update user...
+    public void updateAppUser(int position, AlertDialog.Builder dialogBuilder, LayoutInflater layoutInflater) {
+        final DBHelper dbHelper = new DBHelper(context);
+        final View dialogView = layoutInflater.inflate(R.layout.app_user_update_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText userName, password, firstName, lastName, email;
+        Button btnConfirmUpdateUser;
+
+        userName = dialogView.findViewById(R.id.inputUpdateUserName);
+        password = dialogView.findViewById(R.id.inputUpdatePassword);
+        firstName = dialogView.findViewById(R.id.inputUpdateFirstName);
+        lastName = dialogView.findViewById(R.id.inputUpdateLastName);
+        email = dialogView.findViewById(R.id.inputUpdateEmail);
+        btnConfirmUpdateUser = dialogView.findViewById(R.id.btnConfirmUpdateUser);
+
+        final AppUser tempUser = listOfData.get(position);
+
+        userName.setText(tempUser.getUserName());
+        password.setText(tempUser.getPassword());
+        firstName.setText(tempUser.getFirstName());
+        lastName.setText(tempUser.getLastName());
+        email.setText(tempUser.getEmail());
+
+        btnConfirmUpdateUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tempUser.setUserName(userName.getText().toString());
+                tempUser.setPassword(password.getText().toString());
+                tempUser.setFirstName(firstName.getText().toString());
+                tempUser.setLastName(lastName.getText().toString());
+                tempUser.setEmail(email.getText().toString());
+
+                dbHelper.updateUser(tempUser);
+                Intent profileActivity = new Intent(context, ProfileActivity.class);
+                context.startActivity(profileActivity);
+            }
+        });
     }
 
     /**

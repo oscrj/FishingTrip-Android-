@@ -6,16 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -129,13 +133,25 @@ public class ProfileActivity extends AppCompatActivity {
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case 100:
-                appUserRecyclerAdapter.updateAppUser(item.getGroupId());
+                updateAppUser(item);
                 break;
             case 101:
                 appUserRecyclerAdapter.deleteAppUser(item.getGroupId());
                 break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    public void updateAppUser(MenuItem item){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater layoutInflater = getLayoutInflater();
+
+
+        appUserRecyclerAdapter.updateAppUser(item.getGroupId(), dialogBuilder, layoutInflater);
+
+        AlertDialog updateDialog = dialogBuilder.create();
+        updateDialog.show();
+        //appUserRecyclerAdapter.updateAppUser(item.getGroupId());
     }
 
     /**
@@ -162,7 +178,6 @@ public class ProfileActivity extends AppCompatActivity {
         editor.remove(USER_NAME_DATA);
         editor.apply();
     }
-
 
     /**
      *  Set Data from database to RecyclerView.
