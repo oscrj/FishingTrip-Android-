@@ -22,6 +22,10 @@ public class QueryMessages {
     public static final String COL_IS_ACTIVE = "IS_ACTIVE";
 
     //  Catch
-
-
+    public static final String FISH_CAUGHT_TABLE = "FISH_CAUGHT_TABLE";
+    public static final String COL_FISH_CATCH_ID = "ID";
+    public static final String COL_SPECIES = "SPECIES";
+    public static final String COL_LENGTH = "LENGTH";
+    public static final String COL_WEIGHT = "WEIGHT";
+    public static final String COL_CATCH_FISHING_TRIP_ID = "FISHING_TRIP_ID";
 }

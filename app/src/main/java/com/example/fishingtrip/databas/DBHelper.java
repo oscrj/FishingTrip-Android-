@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 import com.example.fishingtrip.models.AppUser;
+import com.example.fishingtrip.models.Catch;
 import com.example.fishingtrip.models.FishingTrip;
 
 import java.util.ArrayList;
@@ -15,18 +16,24 @@ import java.util.List;
 
 import static com.example.fishingtrip.constants.QueryMessages.APP_USER_TABLE;
 import static com.example.fishingtrip.constants.QueryMessages.COL_APP_USER;
+import static com.example.fishingtrip.constants.QueryMessages.COL_CATCH_FISHING_TRIP_ID;
 import static com.example.fishingtrip.constants.QueryMessages.COL_EMAIL;
 import static com.example.fishingtrip.constants.QueryMessages.COL_FIRST_NAME;
 import static com.example.fishingtrip.constants.QueryMessages.COL_FISHING_METHOD;
 import static com.example.fishingtrip.constants.QueryMessages.COL_FISHING_TRIP_ID;
+import static com.example.fishingtrip.constants.QueryMessages.COL_FISH_CATCH_ID;
 import static com.example.fishingtrip.constants.QueryMessages.COL_IS_ACTIVE;
 import static com.example.fishingtrip.constants.QueryMessages.COL_LAST_NAME;
+import static com.example.fishingtrip.constants.QueryMessages.COL_LENGTH;
 import static com.example.fishingtrip.constants.QueryMessages.COL_LOCATION;
 import static com.example.fishingtrip.constants.QueryMessages.COL_PASSWORD;
+import static com.example.fishingtrip.constants.QueryMessages.COL_SPECIES;
 import static com.example.fishingtrip.constants.QueryMessages.COL_USER_ID;
 import static com.example.fishingtrip.constants.QueryMessages.COL_USER_NAME;
 import static com.example.fishingtrip.constants.QueryMessages.COL_WATER_TYPE;
+import static com.example.fishingtrip.constants.QueryMessages.COL_WEIGHT;
 import static com.example.fishingtrip.constants.QueryMessages.FISHING_TRIP_TABLE;
+import static com.example.fishingtrip.constants.QueryMessages.FISH_CAUGHT_TABLE;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -47,6 +54,9 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(createFishingTrip);
 
         // Create CATCHES_TABLE
+        String createCatchTable = "CREATE TABLE " + FISH_CAUGHT_TABLE + " (" + COL_FISH_CATCH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_SPECIES + " TEXT, "
+                + COL_LENGTH + " REAL, " + COL_WEIGHT + " REAL, " + COL_CATCH_FISHING_TRIP_ID + " TEXT)";
+        db.execSQL(createCatchTable);
     }
 
     @Override
@@ -271,6 +281,25 @@ public class DBHelper extends SQLiteOpenHelper {
         }else{
             db.close();
             cursor.close();
+            return true;
+        }
+    }
+
+    public boolean addCatch(Catch fishCaught){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(COL_SPECIES, fishCaught.getSpecies());
+        cv.put(COL_LENGTH, fishCaught.getLength());
+        cv.put(COL_WEIGHT, fishCaught.getWeight());
+        cv.put(COL_CATCH_FISHING_TRIP_ID, fishCaught.getFishingTrip());
+
+        long insertStatus = db.insert(FISH_CAUGHT_TABLE, null, cv);
+        if(insertStatus == -1){
+            db.close();
+            return false;
+        }else{
+            db.close();
             return true;
         }
     }

@@ -12,6 +12,7 @@
     <string name="hint_last_name">Last name</string>
     <string name="hint_email">email</string>
     <string name="hint_location">Fishing Location</string>
+    <string name="hint_species">Species</string>X
     <string name="hint_length">Length</string>
     <string name="hint_weight">Weight</string>
     <string name="hint_method">Fishing method</string>

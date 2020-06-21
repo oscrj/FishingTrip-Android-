@@ -6,35 +6,22 @@
     android:layout_height="wrap_content"
     android:background="@color/colorBackground">
 
-    <Spinner
-        android:id="@+id/spinSpecies"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@color/colorViewBackground"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <EditText
         android:id="@+id/inputLength"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:autofillHints=""
+        android:backgroundTint="@color/colorText"
         android:ems="10"
         android:hint="@string/hint_length"
         android:inputType="numberDecimal"
         android:textColor="@color/colorText"
         android:textColorHint="@color/colorText"
-        android:backgroundTint="@color/colorText"
         app:layout_constraintEnd_toEndOf="@+id/spinSpecies"
         app:layout_constraintStart_toStartOf="@+id/spinSpecies"
         app:layout_constraintTop_toBottomOf="@+id/spinSpecies"
-        android:autofillHints="" tools:targetApi="lollipop"/>
+        tools:targetApi="lollipop" />
 
     <EditText
         android:id="@+id/inputWeight"
@@ -65,4 +52,40 @@
         app:layout_constraintEnd_toEndOf="@+id/inputWeight"
         app:layout_constraintStart_toStartOf="@+id/inputWeight"
         app:layout_constraintTop_toBottomOf="@+id/inputWeight" />
+
+    <Spinner
+        android:id="@+id/spinSpecies"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/colorViewBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--
+    <EditText
+        android:id="@+id/inputSpecies"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:backgroundTint="@color/colorText"
+        android:ems="10"
+        android:hint="@string/hint_species"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" tools:targetApi="lollipop"/> -->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

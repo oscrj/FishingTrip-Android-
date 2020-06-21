@@ -19,12 +19,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
 import com.example.fishingtrip.models.Catch;
 
-import java.util.Calendar;
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
@@ -36,7 +36,12 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     private TextView txtLocation;
     private Button btnAddCatch, btnEndTrip;
     private Intent getFishingTripData;
-    private String userInputSpecies, fishingTripId;
+    private int fishingTripId;
+    private DBHelper dbHelper;
+    private Spinner species;
+    private EditText length, weight;
+    private Button btnConfirmAddCatch;
+    private final String[] inputSpecies = new String[1];
 
 
     @Override
@@ -48,6 +53,7 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         txtLocation = findViewById(R.id.txtHeaderFishingTrip);
         btnAddCatch = findViewById(R.id.btnAddCatch);
         btnEndTrip = findViewById(R.id.btnEndTrip);
+        dbHelper = new DBHelper(this);
 
     }
 
@@ -60,6 +66,8 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     protected void onResume() {
         super.onResume();
         setHeaderToLocation();
+        fishingTripId = getFishingTripData.getIntExtra("FISHING_TRIP_ID", 0);
+
         btnAddCatch.setOnClickListener(this);
         btnEndTrip.setOnClickListener(this);
     }
@@ -160,7 +168,6 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     private void setHeaderToLocation() {
         getFishingTripData = getIntent();
         txtLocation.setText(getFishingTripData.getStringExtra("FISHING_TRIP_LOCATION"));
-        fishingTripId = getFishingTripData.getStringExtra("FISHING_TRIP_ID");
     }
 
     @Override
@@ -181,37 +188,20 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         View dialogView = inflater.inflate(R.layout.add_catch_dialog, null);
         alertDialogBuilder.setView(dialogView);
 
-        Spinner species;
-        EditText length, weight;
-        Button btnConfirmAddCatch;
-
-        species = findViewById(R.id.spinSpecies);
-        length = findViewById(R.id.inputLength);
-        weight = findViewById(R.id.inputWeight);
-        btnConfirmAddCatch = findViewById(R.id.btnAddCatchSubmit);
-
-        String caughtSpecies = getInputFromSpecies(species);
-
-        Catch newCatch = new Catch(-1, caughtSpecies, Integer.parseInt(length.getText().toString()),
-                Integer.parseInt(weight.getText().toString()), fishingTripId);
-
-        // Create method in DATABASE.....
+        species = dialogView.findViewById(R.id.spinSpecies);
+        length = dialogView.findViewById(R.id.inputLength);
+        weight = dialogView.findViewById(R.id.inputWeight);
+        btnConfirmAddCatch = dialogView.findViewById(R.id.btnAddCatchSubmit);
 
         AlertDialog addCatchDialog = alertDialogBuilder.create();
         addCatchDialog.show();
-    }
 
-    /**
-     *  Create Spinner species.
-     *  Get input from Spinner species and set selected value to
-     */
-    private String getInputFromSpecies(Spinner species) {
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.species, android.R.layout.simple_spinner_item);
-        species.setAdapter(adapter);
+        ArrayAdapter adp = ArrayAdapter.createFromResource(this, R.array.species, android.R.layout.simple_spinner_item);
+        species.setAdapter(adp);
         species.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                userInputSpecies = parent.getItemAtPosition(position).toString();
+                inputSpecies[0] = parent.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -219,9 +209,31 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
 
             }
         });
-        return userInputSpecies;
+
+        btnConfirmAddCatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(length.getText().toString().isEmpty()){
+                    length.setText("0.0");
+                }
+                if (weight.getText().toString().isEmpty()){
+                    weight.setText("0.0");
+                }
+
+                double fishLength = Double.parseDouble(length.getText().toString());
+                double fishWeight = Double.parseDouble(weight.getText().toString());
+
+
+                Catch newCatch = new Catch(-1, inputSpecies[0], fishLength, fishWeight, String.valueOf(fishingTripId));
+                boolean status = dbHelper.addCatch(newCatch);
+                if (status){
+                    Toast.makeText(NewTripActivity.this, "ADDED", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(NewTripActivity.this, "NOT ADDED", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
-
-
-
 }
