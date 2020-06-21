@@ -193,7 +193,7 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         weight = dialogView.findViewById(R.id.inputWeight);
         btnConfirmAddCatch = dialogView.findViewById(R.id.btnAddCatchSubmit);
 
-        AlertDialog addCatchDialog = alertDialogBuilder.create();
+        final AlertDialog addCatchDialog = alertDialogBuilder.create();
         addCatchDialog.show();
 
         ArrayAdapter adp = ArrayAdapter.createFromResource(this, R.array.species, android.R.layout.simple_spinner_item);
@@ -224,9 +224,9 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
                 double fishLength = Double.parseDouble(length.getText().toString());
                 double fishWeight = Double.parseDouble(weight.getText().toString());
 
-
                 Catch newCatch = new Catch(-1, inputSpecies[0], fishLength, fishWeight, String.valueOf(fishingTripId));
                 boolean status = dbHelper.addCatch(newCatch);
+                addCatchDialog.hide();
                 if (status){
                     Toast.makeText(NewTripActivity.this, "ADDED", Toast.LENGTH_SHORT).show();
                 }else{

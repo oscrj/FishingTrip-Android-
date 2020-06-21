@@ -76,11 +76,16 @@ public class CreateNewTripActivity extends AppCompatActivity {
                 boolean status = dbHelper.addFishingTrip(newFishingTrip);
 
                 if (status){
+
+                    Intent fishingTrips = new Intent(CreateNewTripActivity.this, FishingTripsActivity.class);
+                    startActivity(fishingTrips);
+                    /*
                     Intent newFishingTripActivity = new Intent(CreateNewTripActivity.this, NewTripActivity.class);
                     // Send newTripId, and Location with INTENT to later connect it to catches.
                     newFishingTripActivity.putExtra("FISHING_TRIP_ID",newFishingTrip.getFishingTripId());
                     newFishingTripActivity.putExtra("FISHING_TRIP_LOCATION", newFishingTrip.getLocation());
                     startActivity(newFishingTripActivity);
+                    */
 
                 }else{
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CreateNewTripActivity.this);
