@@ -2,13 +2,13 @@ package com.example.fishingtrip.models;
 
 public class Catch {
 
-    private String catchId;
+    private int catchId;
     private String species;
     private double length;
     private double weight;
     private String fishingTrip;
 
-    public Catch(String catchId, String species, double length, double weight, String fishingTrip) {
+    public Catch(int catchId, String species, double length, double weight, String fishingTrip) {
         this.catchId = catchId;
         this.species = species;
         this.length = length;
@@ -16,10 +16,9 @@ public class Catch {
         this.fishingTrip = fishingTrip;
     }
 
-    public String getCatchId() {
+    public int getCatchId() {
         return catchId;
     }
-
 
     public String getSpecies() {
         return species;
@@ -56,7 +55,7 @@ public class Catch {
     @Override
     public String toString() {
         return "Catch{" +
-                "catchId='" + catchId + '\'' +
+                "catchId=" + catchId +
                 ", species='" + species + '\'' +
                 ", length=" + length +
                 ", weight=" + weight +

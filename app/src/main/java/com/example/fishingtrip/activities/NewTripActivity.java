@@ -21,6 +21,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.fishingtrip.R;
+import com.example.fishingtrip.databas.DBHelper;
+import com.example.fishingtrip.models.Catch;
+
+import java.util.Calendar;
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
@@ -32,9 +36,8 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     private TextView txtLocation;
     private Button btnAddCatch, btnEndTrip;
     private Intent getFishingTripData;
+    private String userInputSpecies, fishingTripId;
 
-    private String userInputSpecies;
-    private ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,6 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     protected void onResume() {
         super.onResume();
         setHeaderToLocation();
-
         btnAddCatch.setOnClickListener(this);
         btnEndTrip.setOnClickListener(this);
     }
@@ -153,11 +155,12 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     /**
-     *  Set Header to trip location.
+     *  Set Header to trip location and receive data from fishingTrip.
      */
     private void setHeaderToLocation() {
         getFishingTripData = getIntent();
         txtLocation.setText(getFishingTripData.getStringExtra("FISHING_TRIP_LOCATION"));
+        fishingTripId = getFishingTripData.getStringExtra("FISHING_TRIP_ID");
     }
 
     @Override
@@ -172,47 +175,38 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void addCatchDialog() {
-
-        //  FIX AlertDialog to add catch...
-
-        /*
+    public void addCatchDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.add_catch_dialog, null);
-
         alertDialogBuilder.setView(dialogView);
 
         Spinner species;
-        EditText inputLength, inputWeight;
-        Button btnAddCatchSubmit;
+        EditText length, weight;
+        Button btnConfirmAddCatch;
 
         species = findViewById(R.id.spinSpecies);
-        inputLength = findViewById(R.id.inputLength);
-        inputWeight = findViewById(R.id.inputWeight);
-        btnAddCatchSubmit = findViewById(R.id.btnAddCatchSubmit);
+        length = findViewById(R.id.inputLength);
+        weight = findViewById(R.id.inputWeight);
+        btnConfirmAddCatch = findViewById(R.id.btnAddCatchSubmit);
 
-        final AlertDialog addCatchDialog = alertDialogBuilder.create();
+        String caughtSpecies = getInputFromSpecies(species);
+
+        Catch newCatch = new Catch(-1, caughtSpecies, Integer.parseInt(length.getText().toString()),
+                Integer.parseInt(weight.getText().toString()), fishingTripId);
+
+        // Create method in DATABASE.....
+
+        AlertDialog addCatchDialog = alertDialogBuilder.create();
         addCatchDialog.show();
-
-        getInputFromSpecies(species);
-
-        btnAddCatchSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Add catch to database....
-            }
-        });
-        */
-
     }
 
     /**
      *  Create Spinner species.
      *  Get input from Spinner species and set selected value to
      */
-    private void getInputFromSpecies(Spinner species) {
-        adapter = ArrayAdapter.createFromResource(this, R.array.species, android.R.layout.simple_spinner_item);
+    private String getInputFromSpecies(Spinner species) {
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.species, android.R.layout.simple_spinner_item);
         species.setAdapter(adapter);
         species.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -225,7 +219,9 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
 
             }
         });
+        return userInputSpecies;
     }
+
 
 
 }

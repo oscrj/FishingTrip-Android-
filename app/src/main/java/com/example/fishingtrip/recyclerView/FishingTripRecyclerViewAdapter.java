@@ -57,7 +57,7 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
             @Override
             public void onClick(View v) {
                 Intent tripActivity = new Intent(context, NewTripActivity.class);
-                tripActivity.putExtra("FISHING_LOCATION", listOfData.get(position).getLocation());
+                tripActivity.putExtra("FISHING_TRIP_LOCATION", listOfData.get(position).getLocation());
                 tripActivity.putExtra("FISHING_TRIP_ID", listOfData.get(position).getFishingTripId());
                 context.startActivity(tripActivity);
             }
