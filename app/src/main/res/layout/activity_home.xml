@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@color/colorViewBackground"
-        android:text="@string/weather"
+        android:text="@string/api"
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="@+id/btnTrips"
         app:layout_constraintStart_toStartOf="@+id/btnTrips"

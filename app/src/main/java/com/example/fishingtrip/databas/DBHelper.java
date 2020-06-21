@@ -45,6 +45,8 @@ public class DBHelper extends SQLiteOpenHelper {
         String createFishingTrip = "CREATE TABLE " + FISHING_TRIP_TABLE + " (" + COL_FISHING_TRIP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_FISHING_METHOD + " TEXT, "
                 + COL_WATER_TYPE + " TEXT, " + COL_LOCATION + " TEXT, " + COL_APP_USER + " TEXT, " + COL_IS_ACTIVE +  " BOOL)";
         db.execSQL(createFishingTrip);
+
+        // Create CATCHES_TABLE
     }
 
     @Override
@@ -131,32 +133,6 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return true/false
      */
     public boolean checkUser(String userName, String password) {
-        //  array of columns to fetch
-        /*
-        String[] columns = {
-                COL_USER_ID
-        };
-        SQLiteDatabase db = this.getReadableDatabase();
-        //  selection criteria
-        String selection = COL_USER_NAME + " = ?" + " AND " + COL_PASSWORD + " = ?";
-        //  selection arguments
-        String[] selectionArgs = {userName, password};
-        //  query user table with conditions
-        /**
-         * Here query function is used to fetch records from user table this function works like we use sql query.
-         * SQL query equivalent to this query function is
-         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com' AND user_password = 'qwerty';
-         */
-        /*
-        Cursor cursor = db.query(APP_USER_TABLE, //Table to query
-                columns,                    //columns to return
-                selection,                  //columns for the WHERE clause
-                selectionArgs,              //The values for the WHERE clause
-                null,                       //group the rows
-                null,                       //filter by row groups
-                null);                      //The sort order
-        */
-
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " +APP_USER_TABLE+ " WHERE " +COL_USER_NAME+ " = " + "'" + userName + "'" + " AND "
                 + COL_PASSWORD + " = " + "'" + password + "'", null);
@@ -230,6 +206,11 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Get all fishingtrips that is connected to a specific user.
+     * @param userName - username that binds fisher to specific trip
+     * @return will return a List of fishingtrip made by user with userName.
+     */
     public List<FishingTrip> getAllFishingTripByUserName(String userName){
         SQLiteDatabase db = getReadableDatabase();
         List<FishingTrip> fishingTrips = new ArrayList<>();
@@ -259,10 +240,27 @@ public class DBHelper extends SQLiteOpenHelper {
         return fishingTrips;
     }
 
+    /**
+     * Update fishing trip
+     * @param trip - fishing trip that will be updated.
+     */
     public void updateTrip(FishingTrip trip){
-
+        SQLiteDatabase db = getWritableDatabase();
+        int isActive = trip.isActive() == true ? 1:0;
+        db.execSQL("UPDATE " + FISHING_TRIP_TABLE + " SET " + COL_FISHING_METHOD + " = " + "'" + trip.getFishingMethod() + "'" + ", "
+                + COL_WATER_TYPE + " = " + "'" + trip.getWaterType() + "'" + " , "
+                + COL_LOCATION + " = " + "'" + trip.getLocation() + "'" + " , "
+                + COL_APP_USER + " = " + "'" + trip.getAppUser() + "'" + " , "
+                + COL_IS_ACTIVE + " = " + "'" + isActive + "'"
+                + " WHERE " + COL_FISHING_TRIP_ID + " = " + "'" + trip.getFishingTripId() + "'");
+        db.close();
     }
 
+    /**
+     * Delete fishing trip
+     * @param trip - trip that will be deleted
+     * @return true or false if trip was or was not removed from database.
+     */
     public boolean deleteFishingTrip(FishingTrip trip){
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery("DELETE FROM " + FISHING_TRIP_TABLE + " WHERE " + COL_FISHING_TRIP_ID + " = " + trip.getFishingTripId(), null);

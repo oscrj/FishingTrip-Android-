@@ -14,6 +14,9 @@
     <string name="hint_location">Fishing Location</string>
     <string name="hint_length">Length</string>
     <string name="hint_weight">Weight</string>
+    <string name="hint_method">Fishing method</string>
+    <string name="hint_water_type">Water type</string>
+    <string name="hint_trip_ended">Trip Ended</string>
     <string name="row_fishing_trip">Fishing Trip Row</string>
     <string name="row_app_user">App User Row</string>
     <string name="row_catch">Catch Row</string>
@@ -25,7 +28,7 @@
     <string name="txt_latest_trips">Your latest trips: </string>
     <string name="new_fishing_trip">New Trip</string>
     <string name="all_fishing_trips">Earlier Trips</string>
-    <string name="weather">Weather forecast</string>
+    <string name="api">API</string>
     <string name="end_of_trip">End Trip</string>
     <string name="add_catch">+ Add Catch</string>
 
@@ -36,7 +39,7 @@
         <item>Vertical Fishing</item>
     </string-array>
 
-    <string-array name="watherType">
+    <string-array name="waterType">
         <item>Lake</item>
         <item>River</item>
         <item>Ocean</item>

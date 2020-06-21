@@ -218,7 +218,7 @@ public class CreateNewTripActivity extends AppCompatActivity {
      *  Get input from Spinner WaterType and set selected value to inputWaterType.
      */
     private void getInputFromWaterType() {
-        adapterWaterType = ArrayAdapter.createFromResource(this, R.array.watherType, android.R.layout.simple_spinner_item);
+        adapterWaterType = ArrayAdapter.createFromResource(this, R.array.waterType, android.R.layout.simple_spinner_item);
         waterType.setAdapter(adapterWaterType);
         waterType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

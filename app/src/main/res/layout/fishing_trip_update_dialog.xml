@@ -6,35 +6,48 @@
     android:layout_height="wrap_content"
     android:background="@color/colorBackground">
 
-    <Spinner
-        android:id="@+id/spinUpdateMethod"
+    <EditText
+        android:id="@+id/inputUpdateMethod"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="@color/colorViewBackground"
+        android:autofillHints=""
+        android:backgroundTint="@color/colorText"
+        android:ems="10"
+        android:hint="@string/hint_method"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="lollipop" />
 
-    <Spinner
-        android:id="@+id/spinUpdateWaterType"
+    <EditText
+        android:id="@+id/inputUpdateWaterType"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@color/colorViewBackground"
-        app:layout_constraintEnd_toEndOf="@+id/spinUpdateMethod"
-        app:layout_constraintStart_toStartOf="@+id/spinUpdateMethod"
-        app:layout_constraintTop_toBottomOf="@+id/spinUpdateMethod" />
+        android:autofillHints=""
+        android:backgroundTint="@color/colorText"
+        android:ems="10"
+        android:hint="@string/hint_water_type"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorText"
+        android:textColorHint="@color/colorText"
+        app:layout_constraintEnd_toEndOf="@+id/inputUpdateMethod"
+        app:layout_constraintStart_toStartOf="@+id/inputUpdateMethod"
+        app:layout_constraintTop_toBottomOf="@+id/inputUpdateMethod"
+        tools:targetApi="lollipop" />
 
     <EditText
         android:id="@+id/inputUpdateLocation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:autofillHints=""
         android:backgroundTint="@color/colorText"
         android:ems="10"
@@ -42,9 +55,20 @@
         android:inputType="textPersonName"
         android:textColor="@color/colorText"
         android:textColorHint="@color/colorText"
-        app:layout_constraintEnd_toEndOf="@+id/spinUpdateWaterType"
-        app:layout_constraintStart_toStartOf="@+id/spinUpdateWaterType"
-        app:layout_constraintTop_toBottomOf="@+id/spinUpdateWaterType" tools:targetApi="lollipop"/>
+        app:layout_constraintEnd_toEndOf="@+id/inputUpdateWaterType"
+        app:layout_constraintStart_toStartOf="@+id/inputUpdateWaterType"
+        app:layout_constraintTop_toBottomOf="@+id/inputUpdateWaterType"
+        tools:targetApi="lollipop" />
+
+    <Switch
+        android:id="@+id/swUpdateTripIsActive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/hint_trip_ended"
+        android:textColor="@color/colorText"
+        app:layout_constraintStart_toStartOf="@+id/inputUpdateLocation"
+        app:layout_constraintTop_toBottomOf="@+id/inputUpdateLocation" />
 
     <Button
         android:id="@+id/btnUpdateFishingTrip"
@@ -63,6 +87,7 @@
         app:layout_constraintEnd_toEndOf="@+id/inputUpdateLocation"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/inputUpdateLocation"
-        app:layout_constraintTop_toBottomOf="@+id/inputUpdateLocation"
+        app:layout_constraintTop_toBottomOf="@+id/swUpdateTripIsActive"
         app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

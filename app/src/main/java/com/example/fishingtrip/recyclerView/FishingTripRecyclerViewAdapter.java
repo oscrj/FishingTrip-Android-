@@ -2,11 +2,16 @@ package com.example.fishingtrip.recyclerView;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +20,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fishingtrip.R;
+import com.example.fishingtrip.activities.FishingTripsActivity;
+import com.example.fishingtrip.activities.NewTripActivity;
 import com.example.fishingtrip.databas.DBHelper;
 import com.example.fishingtrip.models.FishingTrip;
 
@@ -49,8 +56,10 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Clicked on: " + listOfData.get(position), Toast.LENGTH_SHORT).show();
-                notifyDataSetChanged();
+                Intent tripActivity = new Intent(context, NewTripActivity.class);
+                tripActivity.putExtra("FISHING_LOCATION", listOfData.get(position).getLocation());
+                tripActivity.putExtra("FISHING_TRIP_ID", listOfData.get(position).getFishingTripId());
+                context.startActivity(tripActivity);
             }
         });
     }
@@ -62,7 +71,7 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
 
     /**
      * Delete FishingTrip
-     * @param position - Delete selected User on position in List<AppUser>/>.
+     * @param position - Delete selected User on position in List<AppUser>.
      */
     public void deleteTrip(int position) {
         DBHelper dbHelper = new DBHelper(context);
@@ -77,8 +86,42 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
     }
 
     public void updateFishingTrip(int position, AlertDialog.Builder dialogBuilder, LayoutInflater layoutInflater) {
-        DBHelper dbHelper = new DBHelper(context);
+        final DBHelper dbHelper = new DBHelper(context);
+        View dialogView = layoutInflater.inflate(R.layout.fishing_trip_update_dialog, null);
+        dialogBuilder.setView(dialogView);
 
+        final EditText fishingMethod, waterType, location;
+        final Switch isActive;
+        Button btnConfirmTripUpdate;
+
+        fishingMethod = dialogView.findViewById(R.id.inputUpdateMethod);
+        waterType = dialogView.findViewById(R.id.inputUpdateWaterType);
+        location = dialogView.findViewById(R.id.inputUpdateLocation);
+        isActive = dialogView.findViewById(R.id.swUpdateTripIsActive);
+        btnConfirmTripUpdate = dialogView.findViewById(R.id.btnUpdateFishingTrip);
+
+        final FishingTrip tempTrip = listOfData.get(position);
+
+        fishingMethod.setText(tempTrip.getFishingMethod());
+        waterType.setText(tempTrip.getWaterType());
+        location.setText(tempTrip.getLocation());
+        isActive.setChecked(tempTrip.isActive());
+
+        btnConfirmTripUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tempTrip.setLocation(location.getText().toString());
+                tempTrip.setFishingMethod(fishingMethod.getText().toString());
+                tempTrip.setWaterType(waterType.getText().toString());
+                tempTrip.setActive(isActive.isChecked());
+
+                dbHelper.updateTrip(tempTrip);
+
+                Intent fishingTrips = new Intent(context, FishingTripsActivity.class);
+                context.startActivity(fishingTrips);
+                notifyDataSetChanged();
+            }
+        });
 
     }
 
