@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fishingtrip.R;
+import com.example.fishingtrip.databas.DBHelper;
 import com.example.fishingtrip.models.FishingTrip;
 
 
@@ -56,6 +57,22 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
     @Override
     public int getItemCount() {
         return listOfData.size();
+    }
+
+    /**
+     * Delete FishingTrip
+     * @param position - Delete selected User on position in List<AppUser>/>.
+     */
+    public void deleteTrip(int position) {
+        DBHelper dbHelper = new DBHelper(context);
+        boolean status = dbHelper.deleteFishingTrip(listOfData.get(position));
+        if (status){
+            listOfData.remove(position);
+            notifyDataSetChanged();
+            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(context, "Fishing trip was NOT Deleted!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {

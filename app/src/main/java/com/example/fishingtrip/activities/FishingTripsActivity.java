@@ -129,7 +129,7 @@ public class FishingTripsActivity extends AppCompatActivity {
                 updateFishingTrip(item);
                 break;
             case 101:
-                deleteFishingTrip(item);
+                recyclerViewAdapter.deleteTrip(item.getGroupId());
                 break;
         }
 
@@ -138,10 +138,6 @@ public class FishingTripsActivity extends AppCompatActivity {
 
     private void updateFishingTrip(MenuItem item) {
         Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
-    }
-
-    private void deleteFishingTrip(MenuItem item) {
-        Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
     }
 
     /**

@@ -161,11 +161,13 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " +APP_USER_TABLE+ " WHERE " +COL_USER_NAME+ " = " + "'" + userName + "'" + " AND "
                 + COL_PASSWORD + " = " + "'" + password + "'", null);
         int cursorCount = cursor.getCount();
-        cursor.close();
-        db.close();
         if (cursorCount > 0) {
+            cursor.close();
+            db.close();
             return true;
         }else{
+            cursor.close();
+            db.close();
             return false;
         }
     }
@@ -180,6 +182,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "'" + user.getPassword() + "'" + " , " + COL_FIRST_NAME + " = " + "'" + user.getFirstName() + "'" + " , " + COL_LAST_NAME + " = "
                 + "'" + user.getLastName() + "'" + " , " + COL_EMAIL + " = " + "'" + user.getEmail() + "'"
                 + " WHERE " + COL_USER_ID + " = " + "'" + user.getUserId() + "'");
+        db.close();
     }
 
     /**
@@ -189,8 +192,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public boolean deleteUser(AppUser user){
         SQLiteDatabase db = this.getWritableDatabase();
-        String deleteStudentQuery = "DELETE FROM " + APP_USER_TABLE + " WHERE " + COL_USER_ID + " = " + user.getUserId();
-        Cursor cursor = db.rawQuery(deleteStudentQuery, null);
+        Cursor cursor = db.rawQuery("DELETE FROM " + APP_USER_TABLE + " WHERE " + COL_USER_ID + " = " + user.getUserId(), null);
         if (cursor.moveToFirst()){
             db.close();
             cursor.close();
@@ -219,10 +221,11 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(COL_IS_ACTIVE, fishingTrip.isActive());
 
         long insertStatus = db.insert(FISHING_TRIP_TABLE, null, contentValues);
-        db.close();
         if(insertStatus == -1){
+            db.close();
             return false;
         }else{
+            db.close();
             return true;
         }
     }
@@ -257,10 +260,15 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public boolean deleteFishingTrip(FishingTrip trip){
-
-        if (true){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery("DELETE FROM " + FISHING_TRIP_TABLE + " WHERE " + COL_FISHING_TRIP_ID + " = " + trip.getFishingTripId(), null);
+        if (cursor.moveToFirst()){
+            db.close();
+            cursor.close();
             return false;
         }else{
+            db.close();
+            cursor.close();
             return true;
         }
     }

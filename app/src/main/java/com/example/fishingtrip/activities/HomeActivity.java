@@ -3,6 +3,7 @@ package com.example.fishingtrip.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -18,7 +19,10 @@ import android.widget.Toast;
 
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
+import com.example.fishingtrip.models.FishingTrip;
 import com.example.fishingtrip.recyclerView.FishingTripRecyclerViewAdapter;
+
+import java.util.List;
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
@@ -29,8 +33,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private TextView homeUserName;
     private Button btnNewTrip, btnAllTrips, btnAPI;
     private String userLoginData;
-    private RecyclerView fishingTripRecyclerView;
-    private FishingTripRecyclerViewAdapter recyclerViewAdapter;
+    //private RecyclerView fishingTripRecyclerView;
+    //private FishingTripRecyclerViewAdapter recyclerViewAdapter;
     private DBHelper dbHelper;
 
     @Override
@@ -43,7 +47,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         btnNewTrip = findViewById(R.id.btnNewFishingtrip);
         btnAllTrips = findViewById(R.id.btnTrips);
         btnAPI = findViewById(R.id.btnWeather);
-
+        dbHelper = new DBHelper(this);
+        //fishingTripRecyclerView = findViewById(R.id.listLatestTrips);
     }
 
     @Override
@@ -59,6 +64,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         btnNewTrip.setOnClickListener(this);
         btnAllTrips.setOnClickListener(this);
         btnAPI.setOnClickListener(this);
+        //setDataToRecyclerView();
     }
 
     @Override
@@ -151,6 +157,17 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         editor.remove(USER_NAME_DATA);
         editor.apply();
     }
+
+    /**
+     *  Set Data from database to RecyclerView.
+     */
+    /*
+    public void setDataToRecyclerView(){
+        recyclerViewAdapter = new FishingTripRecyclerViewAdapter(this, dbHelper.getAllFishingTripByUserName(userLoginData));
+        fishingTripRecyclerView.setAdapter(recyclerViewAdapter);
+        fishingTripRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+    */
 
     /**
      * On click listener for the buttons on HomeActivity.
