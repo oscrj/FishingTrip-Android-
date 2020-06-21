@@ -39,13 +39,15 @@ public class AppUserRecyclerViewAdapter extends RecyclerView.Adapter<AppUserRecy
 
     @Override
     public void onBindViewHolder(@NonNull AppUserRecyclerViewAdapter.ViewHolder holder, final int position) {
-        holder.title.setText(listOfData.get(position).getUserName());
-
+        holder.userName.setText("Username: " + listOfData.get(position).getUserName());
+        holder.fullName.setText("Name: " + listOfData.get(position).getFirstName() + " " + listOfData.get(position).getLastName());
+        holder.email.setText(listOfData.get(position).getEmail());
         holder.image.setImageResource(R.drawable.ic_action_menu_user);
 
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // List of Users will only be displayed to ADMIN and by click on user -> users profile activity will be showed.
                 Toast.makeText(context, "Clicked on: " + listOfData.get(position), Toast.LENGTH_SHORT).show();
                 notifyDataSetChanged();
             }
@@ -83,14 +85,16 @@ public class AppUserRecyclerViewAdapter extends RecyclerView.Adapter<AppUserRecy
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
-        private TextView title;
+        private TextView userName, fullName, email;
         private ImageView image;
         private ConstraintLayout constraintLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            title = itemView.findViewById(R.id.txtAppUserRow);
+            userName = itemView.findViewById(R.id.txtAppUserRow);
+            fullName = itemView.findViewById(R.id.txtAppUserNameRow);
+            email = itemView.findViewById(R.id.txtAppUserEmailRow);
             image = itemView.findViewById(R.id.imageAppUser);
             constraintLayout = itemView.findViewById(R.id.constRowAppUser);
             constraintLayout.setOnCreateContextMenuListener(this);

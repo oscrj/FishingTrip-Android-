@@ -84,7 +84,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public List<AppUser> getAllUsers(){
         SQLiteDatabase db = getReadableDatabase();
         List<AppUser> userList = new ArrayList<>();
-
         Cursor cursor = db.rawQuery("SELECT * FROM " + APP_USER_TABLE, null);
 
         if (cursor.moveToFirst()){
@@ -113,8 +112,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public AppUser findAppUserByUserName(String userName) {
         AppUser tempAppUser = new AppUser(-1, null, null, null,null, null);
         SQLiteDatabase db = getReadableDatabase();
-        String getUserWithUsername = "SELECT * FROM " +APP_USER_TABLE+ " WHERE " +COL_USER_NAME+ " = " + "'" + userName + "'";
-        Cursor cursor = db.rawQuery(getUserWithUsername, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " +APP_USER_TABLE+ " WHERE " +COL_USER_NAME+ " = " + "'" + userName + "'", null);
 
         if (cursor.moveToFirst()){
             tempAppUser = new AppUser(cursor.getInt(cursor.getColumnIndex(COL_USER_ID)), cursor.getString(cursor.getColumnIndex(COL_USER_NAME)),
@@ -134,6 +132,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public boolean checkUser(String userName, String password) {
         //  array of columns to fetch
+        /*
         String[] columns = {
                 COL_USER_ID
         };
@@ -148,6 +147,7 @@ public class DBHelper extends SQLiteOpenHelper {
          * SQL query equivalent to this query function is
          * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com' AND user_password = 'qwerty';
          */
+        /*
         Cursor cursor = db.query(APP_USER_TABLE, //Table to query
                 columns,                    //columns to return
                 selection,                  //columns for the WHERE clause
@@ -155,11 +155,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 null,                       //group the rows
                 null,                       //filter by row groups
                 null);                      //The sort order
-        /*
-        String checkUserNameAndPassword = "SELECT * FROM " +APP_USER_TABLE+ " WHERE " +COL_USER_NAME+ " = " + userName + " AND "
-                + COL_PASSWORD + " = " + password;
-        Cursor cursor = db.rawQuery(checkUserNameAndPassword, null);
         */
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " +APP_USER_TABLE+ " WHERE " +COL_USER_NAME+ " = " + "'" + userName + "'" + " AND "
+                + COL_PASSWORD + " = " + "'" + password + "'", null);
         int cursorCount = cursor.getCount();
         cursor.close();
         db.close();
@@ -171,13 +171,25 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     *  Method to remove appUser
-     * @param userToRemove - user that will be removed.
+     * Method to update appUser.
+     * @param user - user that will be updated.
+     */
+    public void updateUser(AppUser user){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("UPDATE " + APP_USER_TABLE + " SET " + COL_USER_NAME + " = " + "'" + user.getUserName() + "'" + ", " + COL_PASSWORD + " = "
+                + "'" + user.getPassword() + "'" + " , " + COL_FIRST_NAME + " = " + "'" + user.getFirstName() + "'" + " , " + COL_LAST_NAME + " = "
+                + "'" + user.getLastName() + "'" + " , " + COL_EMAIL + " = " + "'" + user.getEmail() + "'"
+                + " WHERE " + COL_USER_ID + " = " + "'" + user.getUserId() + "'");
+    }
+
+    /**
+     * Method to remove appUser
+     * @param user - user that will be removed.
      * @return - true or false if user was removed or not.
      */
-    public boolean deleteUser(AppUser userToRemove){
+    public boolean deleteUser(AppUser user){
         SQLiteDatabase db = this.getWritableDatabase();
-        String deleteStudentQuery = "DELETE FROM " + APP_USER_TABLE + " WHERE " + COL_USER_ID + " = " + userToRemove.getUserId();
+        String deleteStudentQuery = "DELETE FROM " + APP_USER_TABLE + " WHERE " + COL_USER_ID + " = " + user.getUserId();
         Cursor cursor = db.rawQuery(deleteStudentQuery, null);
         if (cursor.moveToFirst()){
             db.close();
