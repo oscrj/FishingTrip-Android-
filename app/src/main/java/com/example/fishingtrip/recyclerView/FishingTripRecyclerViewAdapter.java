@@ -34,7 +34,6 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
     Context context;
 
     public FishingTripRecyclerViewAdapter(Context ct, List<FishingTrip> titles){
-
         listOfData = titles;
         context = ct;
     }
@@ -58,7 +57,7 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
             public void onClick(View v) {
                 Intent tripActivity = new Intent(context, NewTripActivity.class);
                 tripActivity.putExtra("FISHING_TRIP_LOCATION", listOfData.get(position).getLocation());
-                tripActivity.putExtra("FISHING_TRIP_ID", listOfData.get(position).getFishingTripId());
+                tripActivity.putExtra("FISHING_TRIP_ID", String.valueOf(listOfData.get(position).getFishingTripId()));
                 context.startActivity(tripActivity);
             }
         });
@@ -85,6 +84,12 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
         }
     }
 
+    /**
+     * Update Fishing Trip
+     * @param position - Position of the selected object.
+     * @param dialogBuilder - Create View from layoutInflater.
+     * @param layoutInflater - Points at which layout to create.
+     */
     public void updateFishingTrip(int position, AlertDialog.Builder dialogBuilder, LayoutInflater layoutInflater) {
         final DBHelper dbHelper = new DBHelper(context);
         View dialogView = layoutInflater.inflate(R.layout.fishing_trip_update_dialog, null);

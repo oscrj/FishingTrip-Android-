@@ -250,6 +250,34 @@ public class DBHelper extends SQLiteOpenHelper {
         return fishingTrips;
     }
 
+
+    public FishingTrip getFishingTripById(String fishingTripId) {
+        SQLiteDatabase db = getReadableDatabase();
+        FishingTrip tempTrip = null;
+        String getAllFishingTripByUserName = "SELECT * FROM " + FISHING_TRIP_TABLE + " WHERE " + COL_FISHING_TRIP_ID + " = " + "'" + fishingTripId + "'";
+        Cursor cursor = db.rawQuery(getAllFishingTripByUserName, null);
+
+        if (cursor.moveToFirst()){
+            do{
+                boolean isActive = cursor.getInt(5) == 1 ? true:false;
+                tempTrip = new FishingTrip(cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        isActive);
+
+
+            }while (cursor.moveToNext());
+
+        }else {
+            //throw new IllegalArgumentException("Didn't find any Trips!! ");
+        }
+
+        db.close();
+        cursor.close();
+        return tempTrip;
+    }
     /**
      * Update fishing trip
      * @param trip - fishing trip that will be updated.
@@ -285,6 +313,11 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Add caught fish to database
+     * @param fishCaught - fish that is caught.
+     * @return - true or false if catch was or was not added to database.
+     */
     public boolean addCatch(Catch fishCaught){
         SQLiteDatabase db = getWritableDatabase();
 
@@ -302,5 +335,37 @@ public class DBHelper extends SQLiteOpenHelper {
             db.close();
             return true;
         }
+    }
+
+    /**
+     * Find all caught fish on a specific trip.
+     * @param fishingTripId - trip that catches are connected to.
+     * @return - List of all fish caught on that trip.
+     */
+    public List<Catch> getCatchWithFishTripId(String fishingTripId) {
+
+        SQLiteDatabase db = getReadableDatabase();
+        List<Catch> catches = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + FISH_CAUGHT_TABLE + " WHERE " + COL_CATCH_FISHING_TRIP_ID + " = " + "'" + fishingTripId + "'", null);
+
+        if (cursor.moveToFirst()){
+            do {
+                Catch tempCatch = new Catch(cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getDouble(2),
+                        cursor.getDouble(3),
+                        cursor.getString(4));
+
+                catches.add(tempCatch);
+
+            }while (cursor.moveToNext());
+
+        }else{
+            // Handle exceptions...
+        }
+        db.close();
+        cursor.close();
+        return catches;
     }
 }

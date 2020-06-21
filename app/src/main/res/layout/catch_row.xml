@@ -8,22 +8,20 @@
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="64dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constRowCatch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorViewBackground">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imgCatchRow"
                 android:layout_width="52dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -38,21 +36,41 @@
                 app:srcCompat="@drawable/ic_catch_logo" />
 
             <TextView
-                android:id="@+id/txtCatchRow"
+                android:id="@+id/txtSpeciesRow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:text="@string/row_catch"
                 android:textColor="@color/colorText"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.511" />
+                app:layout_constraintStart_toEndOf="@+id/imgCatchRow"
+                app:layout_constraintTop_toTopOf="@+id/imgCatchRow" />
+
+            <TextView
+                android:id="@+id/txtLengthRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/row_catch"
+                android:textColor="@color/colorText"
+                app:layout_constraintBottom_toBottomOf="@+id/imgCatchRow"
+                app:layout_constraintStart_toStartOf="@+id/txtSpeciesRow"
+                app:layout_constraintTop_toBottomOf="@+id/txtSpeciesRow" />
+
+            <TextView
+                android:id="@+id/txtWeightRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:text="@string/row_catch"
+                android:textColor="@color/colorText"
+                app:layout_constraintBottom_toBottomOf="@+id/txtLengthRow"
+                app:layout_constraintStart_toEndOf="@+id/txtLengthRow"
+                app:layout_constraintTop_toTopOf="@+id/txtLengthRow" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

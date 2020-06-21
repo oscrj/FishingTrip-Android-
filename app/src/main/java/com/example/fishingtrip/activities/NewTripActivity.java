@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +26,8 @@ import android.widget.Toast;
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
 import com.example.fishingtrip.models.Catch;
+import com.example.fishingtrip.models.FishingTrip;
+import com.example.fishingtrip.recyclerView.CatchRecyclerViewAdapter;
 
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
@@ -32,17 +36,18 @@ import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
 public class NewTripActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActionBar actionBar;
-    private String userLoginData;
+    private String userLoginData, fishingTripId;
     private TextView txtLocation;
     private Button btnAddCatch, btnEndTrip;
     private Intent getFishingTripData;
-    private int fishingTripId;
     private DBHelper dbHelper;
     private Spinner species;
     private EditText length, weight;
     private Button btnConfirmAddCatch;
     private final String[] inputSpecies = new String[1];
-
+    private RecyclerView catchRecyclerView;
+    private CatchRecyclerViewAdapter catchRecyclerViewAdapter;
+    private FishingTrip thisFishingTrip = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +58,8 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         txtLocation = findViewById(R.id.txtHeaderFishingTrip);
         btnAddCatch = findViewById(R.id.btnAddCatch);
         btnEndTrip = findViewById(R.id.btnEndTrip);
+        catchRecyclerView = findViewById(R.id.listOfCatches);
         dbHelper = new DBHelper(this);
-
     }
 
     @Override
@@ -65,12 +70,13 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        setHeaderToLocation();
-        fishingTripId = getFishingTripData.getIntExtra("FISHING_TRIP_ID", 0);
+        getDataFromIntent();
+        setDataToRecyclerView();
 
         btnAddCatch.setOnClickListener(this);
         btnEndTrip.setOnClickListener(this);
     }
+
 
     @Override
     protected void onPause() {
@@ -145,6 +151,32 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     /**
+     *  Set inItemSelected on context menu.
+     * @param item - the item user clicked on.
+     */
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case 100:
+                updateCatch(item);
+                break;
+            case 101:
+                catchRecyclerViewAdapter.deleteFishCaught(item.getGroupId());
+                break;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    /**
+     * Update caught fish.
+     * @param item
+     */
+    private void updateCatch(MenuItem item) {
+
+    }
+
+    /**
      * load User data if user are logged in.
      */
     public void loadUserData(){
@@ -165,14 +197,22 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     /**
      *  Set Header to trip location and receive data from fishingTrip.
      */
-    private void setHeaderToLocation() {
+    private void getDataFromIntent() {
         getFishingTripData = getIntent();
         txtLocation.setText(getFishingTripData.getStringExtra("FISHING_TRIP_LOCATION"));
+
+        // Have to fix this null pointer...
+        thisFishingTrip = dbHelper.getFishingTripById(getFishingTripData.getStringExtra("FISHING_TRIP_ID"));
+    }
+
+    public void setDataToRecyclerView(){
+        catchRecyclerViewAdapter = new CatchRecyclerViewAdapter(this, dbHelper.getCatchWithFishTripId(String.valueOf(thisFishingTrip.getFishingTripId())));
+        catchRecyclerView.setAdapter(catchRecyclerViewAdapter);
+        catchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()){
             case R.id.btnAddCatch:
                 addCatchDialog();
@@ -224,10 +264,11 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
                 double fishLength = Double.parseDouble(length.getText().toString());
                 double fishWeight = Double.parseDouble(weight.getText().toString());
 
-                Catch newCatch = new Catch(-1, inputSpecies[0], fishLength, fishWeight, String.valueOf(fishingTripId));
+                Catch newCatch = new Catch(-1, inputSpecies[0], fishLength, fishWeight, String.valueOf(thisFishingTrip.getFishingTripId()));
                 boolean status = dbHelper.addCatch(newCatch);
                 addCatchDialog.hide();
                 if (status){
+                    setDataToRecyclerView();
                     Toast.makeText(NewTripActivity.this, "ADDED", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(NewTripActivity.this, "NOT ADDED", Toast.LENGTH_SHORT).show();
