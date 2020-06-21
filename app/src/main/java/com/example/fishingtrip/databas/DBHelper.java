@@ -259,6 +259,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return fishingTrips;
     }
 
+    public void updateTrip(FishingTrip trip){
+
+    }
+
     public boolean deleteFishingTrip(FishingTrip trip){
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery("DELETE FROM " + FISHING_TRIP_TABLE + " WHERE " + COL_FISHING_TRIP_ID + " = " + trip.getFishingTripId(), null);

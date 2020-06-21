@@ -103,6 +103,7 @@ public class AppUserRecyclerViewAdapter extends RecyclerView.Adapter<AppUserRecy
                 dbHelper.updateUser(tempUser);
                 Intent profileActivity = new Intent(context, ProfileActivity.class);
                 context.startActivity(profileActivity);
+                notifyDataSetChanged();
             }
         });
     }

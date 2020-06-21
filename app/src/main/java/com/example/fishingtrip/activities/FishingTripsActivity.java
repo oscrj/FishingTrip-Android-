@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -137,7 +139,13 @@ public class FishingTripsActivity extends AppCompatActivity {
     }
 
     private void updateFishingTrip(MenuItem item) {
-        Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater layoutInflater = getLayoutInflater();
+
+        recyclerViewAdapter.updateFishingTrip(item.getGroupId(), dialogBuilder, layoutInflater);
+
+        AlertDialog updateDialog = dialogBuilder.create();
+        updateDialog.show();
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.example.fishingtrip.recyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -73,6 +74,12 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
         }else {
             Toast.makeText(context, "Fishing trip was NOT Deleted!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void updateFishingTrip(int position, AlertDialog.Builder dialogBuilder, LayoutInflater layoutInflater) {
+        DBHelper dbHelper = new DBHelper(context);
+
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
