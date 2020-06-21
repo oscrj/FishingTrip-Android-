@@ -126,7 +126,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     /**
-     *  Set inItemSelected on context menu.
+     *  Set onItemSelected on context menu.
      * @param item - the item user clicked on.
      */
     @Override
@@ -146,12 +146,10 @@ public class ProfileActivity extends AppCompatActivity {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater layoutInflater = getLayoutInflater();
 
-
         appUserRecyclerAdapter.updateAppUser(item.getGroupId(), dialogBuilder, layoutInflater);
 
         AlertDialog updateDialog = dialogBuilder.create();
         updateDialog.show();
-        //appUserRecyclerAdapter.updateAppUser(item.getGroupId());
     }
 
     /**

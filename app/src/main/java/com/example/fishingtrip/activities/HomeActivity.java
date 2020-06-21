@@ -3,6 +3,7 @@ package com.example.fishingtrip.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
+import com.example.fishingtrip.recyclerView.FishingTripRecyclerViewAdapter;
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
@@ -27,6 +29,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private TextView homeUserName;
     private Button btnNewTrip, btnAllTrips, btnAPI;
     private String userLoginData;
+    private RecyclerView fishingTripRecyclerView;
+    private FishingTripRecyclerViewAdapter recyclerViewAdapter;
     private DBHelper dbHelper;
 
     @Override
@@ -154,7 +158,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onClick(View v) {
-
         switch (v.getId()){
             case R.id.btnNewFishingtrip:
                 Intent createNewTrip = new Intent(this, CreateNewTripActivity.class);

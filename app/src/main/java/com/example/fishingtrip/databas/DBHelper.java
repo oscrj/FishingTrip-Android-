@@ -256,4 +256,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return fishingTrips;
     }
 
+    public boolean deleteFishingTrip(FishingTrip trip){
+
+        if (true){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }

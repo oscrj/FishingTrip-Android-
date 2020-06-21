@@ -40,7 +40,9 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.title.setText(listOfData.get(position).toString());
+        holder.method.setText(listOfData.get(position).getFishingMethod().toUpperCase());
+        holder.waterType.setText(listOfData.get(position).getWaterType());
+        holder.location.setText("-  " + listOfData.get(position).getLocation());
         holder.image.setImageResource(R.drawable.ic_action_menu_fishingtrip_logo);
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,14 +60,15 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
-        private TextView title;
+        private TextView method, waterType, location;
         private ImageView image;
         private ConstraintLayout constraintLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            title = itemView.findViewById(R.id.txtTitleRow);
+            method = itemView.findViewById(R.id.txtMethodRow);
+            waterType = itemView.findViewById(R.id.txtWaterTypeRow);
+            location = itemView.findViewById(R.id.txtLocationRow);
             image = itemView.findViewById(R.id.imageFishingTripRow);
             constraintLayout = itemView.findViewById(R.id.constRowFishingTrips);
             constraintLayout.setOnCreateContextMenuListener(this);

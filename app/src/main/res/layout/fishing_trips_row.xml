@@ -28,8 +28,8 @@
                 android:id="@+id/imageFishingTripRow"
                 android:layout_width="48dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:contentDescription="@string/app_name"
@@ -39,21 +39,42 @@
                 app:srcCompat="@drawable/ic_action_menu_fishingtrip_logo" />
 
             <TextView
-                android:id="@+id/txtTitleRow"
+                android:id="@+id/txtMethodRow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:text="@string/row_fishing_trip"
                 android:textColor="@color/colorText"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/imageFishingTripRow"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.511" />
+                app:layout_constraintTop_toTopOf="@+id/imageFishingTripRow" />
+
+            <TextView
+                android:id="@+id/txtWaterTypeRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:text="@string/row_fishing_trip"
+                android:textColor="@color/colorText"
+                app:layout_constraintBottom_toBottomOf="@+id/imageFishingTripRow"
+                app:layout_constraintStart_toEndOf="@+id/imageFishingTripRow"
+                app:layout_constraintTop_toBottomOf="@+id/txtMethodRow" />
+
+            <TextView
+                android:id="@+id/txtLocationRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="@string/row_fishing_trip"
+                android:textColor="@color/colorText"
+                app:layout_constraintBottom_toBottomOf="@+id/txtWaterTypeRow"
+                app:layout_constraintStart_toEndOf="@+id/txtWaterTypeRow" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

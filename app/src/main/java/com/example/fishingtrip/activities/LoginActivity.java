@@ -52,11 +52,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Makes it only possible to submit if correct value is given
+        // Makes it possible to submit if user enters text to input field.
         btnLogin.setEnabled(false);
         userNameInput.addTextChangedListener(loginValidation);
         passwordInput.addTextChangedListener(loginValidation);
-
     }
 
     @Override

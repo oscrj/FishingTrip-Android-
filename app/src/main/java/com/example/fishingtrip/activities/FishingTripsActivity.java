@@ -28,7 +28,7 @@ public class FishingTripsActivity extends AppCompatActivity {
     private String userLoginData;
     private DBHelper dbHelper;
     private RecyclerView fishingTripRecyclerView;
-    FishingTripRecyclerViewAdapter recyclerViewAdapter;
+    private FishingTripRecyclerViewAdapter recyclerViewAdapter;
 
 
     @Override
@@ -124,7 +124,6 @@ public class FishingTripsActivity extends AppCompatActivity {
      */
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()){
             case 100:
                 updateFishingTrip(item);
