@@ -9,14 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.CreateNewTripActivity"></activity>
-        <activity android:name=".activities.FishingTripsActivity"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activities.ApiActivity"></activity>
+        <activity android:name=".activities.CreateNewTripActivity" />
+        <activity
+            android:name=".activities.FishingTripsActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.NewTripActivity" />
-        <activity android:name=".activities.HomeActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".activities.ProfileActivity"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activities.HomeActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.ProfileActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.MainActivity">

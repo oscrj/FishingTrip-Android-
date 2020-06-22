@@ -30,6 +30,11 @@
     <string name="new_fishing_trip">New Trip</string>
     <string name="all_fishing_trips">Your Trips</string>
     <string name="api">API</string>
+    <string name="api_btn_GET">GET Request</string>
+    <string name="api_btn_POST">POST Request</string>
+    <string name="api_btn_PUT">PUT Request</string>
+    <string name="api_btn_DELETE">DELETE Request</string>
+    <string name="api_txt_result">Request Result Here</string>
     <string name="end_of_trip">End Trip</string>
     <string name="add_catch">+ Add Catch</string>
 
@@ -45,7 +50,7 @@
         <item>River</item>
         <item>Ocean</item>
     </string-array>
-    
+
     <string-array name="species">
         <item>Perch</item>
         <item>Northern Pike</item>
