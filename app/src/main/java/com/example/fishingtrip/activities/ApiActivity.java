@@ -7,17 +7,34 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.fishingtrip.R;
+import com.example.fishingtrip.volley.VolleyReq;
+import com.example.fishingtrip.models.UserModel;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import static com.example.fishingtrip.constants.QueryMessages.REQ_RES_URL;
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
 
@@ -28,6 +45,10 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
     private Button btnGET, btnPOST, btnPUT, btnDELETE;
     private TextView txtRequestResult, txtId, txtName, txtEmail;
     private ImageView profileImage;
+    private ListView usersList;
+    private ArrayAdapter arrayAdapter;
+    private ArrayList<UserModel> userModels;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +65,8 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
         btnPOST = findViewById(R.id.btnPost);
         btnPUT = findViewById(R.id.btnPut);
         btnDELETE = findViewById(R.id.btnDelete);
+        usersList = findViewById(R.id.usersList);
+        userModels = new ArrayList<>();
     }
 
     @Override
@@ -54,6 +77,7 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
         btnPOST.setOnClickListener(this);
         btnPUT.setOnClickListener(this);
         btnDELETE.setOnClickListener(this);
+        updateListView();
     }
 
     @Override
@@ -61,7 +85,35 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
 
         switch (v.getId()){
             case R.id.btnGet:
-                Toast.makeText(this, "GET", Toast.LENGTH_SHORT).show();
+                JsonObjectRequest volleyGetRequest = new JsonObjectRequest(Request.Method.GET, REQ_RES_URL + "users?page=2", null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray dataObject = response.getJSONArray("data");
+                            for(int i = 0; i < dataObject.length(); i++){
+                                JSONObject userObject = dataObject.getJSONObject(i);
+
+                                UserModel tempUser = new UserModel(userObject.getInt("id"),
+                                        userObject.getString("email"),
+                                        userObject.getString("first_name"),
+                                        userObject.getString("last_name"),
+                                        userObject.getString("avatar"));
+
+                                userModels.add(tempUser);
+                                //Picasso.get().load(userObject.getString("avatar")).into(profileImage);
+                                updateListView();
+                            }
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                });
+                VolleyReq.getInstance(this.getApplicationContext()).addToRequestQueue(volleyGetRequest);
                 break;
             case R.id.btnPost:
                 Toast.makeText(this, "POST", Toast.LENGTH_SHORT).show();
@@ -81,8 +133,8 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        assert actionBar != null;
         actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setLogo(R.drawable.ic_action_menu_fishingtrip_logo);
@@ -122,10 +174,23 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * SAVE User login session.
-     */
-    public void saveUserDATA(){
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.contViewDetails) {
+            showUserDetails(item);
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    private void showUserDetails(MenuItem item) {
 
     }
 
@@ -145,6 +210,14 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(USER_NAME_DATA);
         editor.apply();
+    }
+
+    /**
+     * Update ListView
+     */
+    public void updateListView() {
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, userModels);
+        usersList.setAdapter(arrayAdapter);
     }
 
 }

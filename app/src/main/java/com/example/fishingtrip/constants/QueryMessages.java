@@ -28,4 +28,7 @@ public class QueryMessages {
     public static final String COL_LENGTH = "LENGTH";
     public static final String COL_WEIGHT = "WEIGHT";
     public static final String COL_CATCH_FISHING_TRIP_ID = "FISHING_TRIP_ID";
+
+    // API URL
+    public final static String REQ_RES_URL = "https://reqres.in/api/";
 }

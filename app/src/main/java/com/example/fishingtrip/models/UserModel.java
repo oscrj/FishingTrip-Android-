@@ -3,16 +3,16 @@ package com.example.fishingtrip.models;
 public class UserModel {
 
     private int Id;
+    private String email;
     private String firstName;
     private String lastName;
-    private String email;
     private String avatar;
 
-    public UserModel(int id, String firstName, String lastName, String email, String avatar) {
+    public UserModel(int id, String email, String firstName, String lastName, String avatar) {
         Id = id;
+        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
         this.avatar = avatar;
     }
 
@@ -22,6 +22,14 @@ public class UserModel {
 
     public void setId(int id) {
         Id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -40,14 +48,6 @@ public class UserModel {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getAvatar() {
         return avatar;
     }
@@ -60,9 +60,9 @@ public class UserModel {
     public String toString() {
         return "UserModel{" +
                 "Id=" + Id +
+                ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
                 ", avatar='" + avatar + '\'' +
                 '}';
     }

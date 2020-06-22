@@ -86,8 +86,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        assert actionBar != null;
         actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setLogo(R.drawable.ic_action_menu_fishingtrip_logo);
