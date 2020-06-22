@@ -46,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnNewFishingtrip" />
 
     <Button
-        android:id="@+id/btnWeather"
+        android:id="@+id/btnApi"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -65,7 +65,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnWeather" />
+        app:layout_constraintTop_toBottomOf="@+id/btnApi" />
 
     <!--
     <TextView

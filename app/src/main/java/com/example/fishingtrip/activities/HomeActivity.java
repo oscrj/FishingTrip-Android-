@@ -3,8 +3,6 @@ package com.example.fishingtrip.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,14 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
-import com.example.fishingtrip.models.FishingTrip;
-import com.example.fishingtrip.recyclerView.FishingTripRecyclerViewAdapter;
-
-import java.util.List;
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
@@ -46,7 +39,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         homeUserName = findViewById(R.id.txtHeaderHome);
         btnNewTrip = findViewById(R.id.btnNewFishingtrip);
         btnAllTrips = findViewById(R.id.btnTrips);
-        btnAPI = findViewById(R.id.btnWeather);
+        btnAPI = findViewById(R.id.btnApi);
         dbHelper = new DBHelper(this);
         //fishingTripRecyclerView = findViewById(R.id.listLatestTrips);
     }
@@ -93,6 +86,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
+        assert actionBar != null;
         actionBar = getSupportActionBar();
         actionBar.setTitle("");
         actionBar.setDisplayShowHomeEnabled(true);
@@ -158,7 +152,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         editor.apply();
     }
 
-    /**
+
+    /*/**
      *  Set Data from database to RecyclerView.
      */
     /*
@@ -166,8 +161,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         recyclerViewAdapter = new FishingTripRecyclerViewAdapter(this, dbHelper.getAllFishingTripByUserName(userLoginData));
         fishingTripRecyclerView.setAdapter(recyclerViewAdapter);
         fishingTripRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
-    */
+    }*/
+
 
     /**
      * On click listener for the buttons on HomeActivity.
@@ -184,8 +179,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 Intent allTrips = new Intent(this, FishingTripsActivity.class);
                 startActivity(allTrips);
                 break;
-            case R.id.btnWeather:
-                Toast.makeText(this, "Not yet implemented!", Toast.LENGTH_SHORT).show();
+            case R.id.btnApi:
+                Intent apiActivity = new Intent(this, ApiActivity.class);
+                startActivity(apiActivity);
                 break;
         }
     }
