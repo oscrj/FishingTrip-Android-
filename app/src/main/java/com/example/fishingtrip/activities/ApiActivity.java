@@ -98,8 +98,6 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-
-
     private void doGETReq(){
         JsonObjectRequest volleyGetRequest = new JsonObjectRequest(Request.Method.GET, REQ_RES_URL + "users?page=2", null, new Response.Listener<JSONObject>() {
             @Override
@@ -255,6 +253,10 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
         return super.onContextItemSelected(item);
     }
 
+    /**
+     * Create userDetails dialog and show profile picture and user details.
+     * @param item - use item to select which user to reveal.
+     */
     private void showUserDetails(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
@@ -303,5 +305,4 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
         arrayAdapter = new ArrayAdapter(this, R.layout.list_view_layout, R.id.txtListViewColor, userModels);
         usersList.setAdapter(arrayAdapter);
     }
-
 }

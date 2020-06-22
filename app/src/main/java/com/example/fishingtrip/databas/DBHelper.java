@@ -368,4 +368,19 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         return catches;
     }
+
+    public boolean deleteCatch(Catch fishCaught){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.rawQuery("DELETE FROM " + FISH_CAUGHT_TABLE + " WHERE " + COL_FISH_CATCH_ID + " = " + fishCaught.getCatchId(), null);
+        if (cursor.moveToFirst()){
+            db.close();
+            cursor.close();
+            return false;
+        }else{
+            db.close();
+            cursor.close();
+            return true;
+        }
+
+    }
 }

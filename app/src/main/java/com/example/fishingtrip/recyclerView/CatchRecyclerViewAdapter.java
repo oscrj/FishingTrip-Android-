@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fishingtrip.R;
+import com.example.fishingtrip.databas.DBHelper;
 import com.example.fishingtrip.models.Catch;
 
 import java.util.List;
@@ -56,10 +57,19 @@ public class CatchRecyclerViewAdapter extends RecyclerView.Adapter<CatchRecycler
     }
 
     /**
-     *
-     * @param position
+     * Delete catch
+     * @param position - Delete selected catch on position in List<Catch>.
      */
     public void deleteFishCaught(int position) {
+        DBHelper dbHelper = new DBHelper(context);
+        boolean status = dbHelper.deleteCatch(listOfData.get(position));
+        if (status){
+            listOfData.remove(position);
+            notifyDataSetChanged();
+            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(context, "Caught fish was NOT removed!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
