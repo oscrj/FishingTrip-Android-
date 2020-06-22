@@ -36,7 +36,7 @@ import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
 public class NewTripActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActionBar actionBar;
-    private String userLoginData, fishingTripId;
+    private String userLoginData;
     private TextView txtLocation;
     private Button btnAddCatch, btnEndTrip;
     private Intent getFishingTripData;
@@ -199,10 +199,8 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
      */
     private void getDataFromIntent() {
         getFishingTripData = getIntent();
-        txtLocation.setText(getFishingTripData.getStringExtra("FISHING_TRIP_LOCATION"));
-
-        // Have to fix this null pointer...
         thisFishingTrip = dbHelper.getFishingTripById(getFishingTripData.getStringExtra("FISHING_TRIP_ID"));
+        txtLocation.setText(thisFishingTrip.getLocation());
     }
 
     public void setDataToRecyclerView(){
