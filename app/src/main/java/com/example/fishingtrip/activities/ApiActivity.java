@@ -37,6 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.example.fishingtrip.constants.QueryMessages.DELETE_REQ_URL;
 import static com.example.fishingtrip.constants.QueryMessages.REQ_RES_URL;
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
@@ -83,43 +84,113 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnGet:
-                JsonObjectRequest volleyGetRequest = new JsonObjectRequest(Request.Method.GET, REQ_RES_URL + "users?page=2", null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray dataObject = response.getJSONArray("data");
-                            for(int i = 0; i < dataObject.length(); i++){
-                                JSONObject userObject = dataObject.getJSONObject(i);
-                                UserModel tempUser = new UserModel(userObject.getInt("id"),
-                                        userObject.getString("email"),
-                                        userObject.getString("first_name"),
-                                        userObject.getString("last_name"),
-                                        userObject.getString("avatar"));
-                                userModels.add(tempUser);
-                                updateListView();
-                            }
-                        }catch (JSONException e){
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                });
-                VolleyReq.getInstance(this.getApplicationContext()).addToRequestQueue(volleyGetRequest);
+                doGETReq();
                 break;
             case R.id.btnPost:
-                Toast.makeText(this, "POST", Toast.LENGTH_SHORT).show();
+                doPOSTReq();
                 break;
             case R.id.btnPut:
-                Toast.makeText(this, "PUT", Toast.LENGTH_SHORT).show();
+                doPUTReq();
                 break;
             case R.id.btnDelete:
-                Toast.makeText(this, "DELETE", Toast.LENGTH_SHORT).show();
+                doDELETEReq();
                 break;
         }
+    }
+
+
+
+    private void doGETReq(){
+        JsonObjectRequest volleyGetRequest = new JsonObjectRequest(Request.Method.GET, REQ_RES_URL + "users?page=2", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray dataObject = response.getJSONArray("data");
+                    for(int i = 0; i < dataObject.length(); i++){
+                        JSONObject userObject = dataObject.getJSONObject(i);
+                        UserModel tempUser = new UserModel(userObject.getInt("id"),
+                                userObject.getString("email"),
+                                userObject.getString("first_name"),
+                                userObject.getString("last_name"),
+                                userObject.getString("avatar"));
+                        userModels.add(tempUser);
+                        updateListView();
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        VolleyReq.getInstance(this.getApplicationContext()).addToRequestQueue(volleyGetRequest);
+    }
+
+    private void doPOSTReq() {
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("id", "4321");
+            postData.put("name", "Oscar");
+            postData.put("email", "oscar@mail.com");
+
+            JsonObjectRequest volleyPostRequest = new JsonObjectRequest(Request.Method.POST, REQ_RES_URL + "users", null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    txtRequestResult.setText(response.toString());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+            VolleyReq.getInstance(this.getApplicationContext()).addToRequestQueue(volleyPostRequest);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void doPUTReq() {
+        JSONObject putData = new JSONObject();
+        try {
+
+            putData.put("name", "Oscar");
+            putData.put("job", "Full Stack Developer");
+
+            JsonObjectRequest volleyPutRequest = new JsonObjectRequest(Request.Method.PUT, REQ_RES_URL + "users", null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    txtRequestResult.setText(response.toString());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+            VolleyReq.getInstance(this.getApplicationContext()).addToRequestQueue(volleyPutRequest);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void doDELETEReq() {
+        JsonObjectRequest volleyDeleteRequest = new JsonObjectRequest(Request.Method.DELETE, DELETE_REQ_URL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                txtRequestResult.setText(response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                txtRequestResult.setText(error.toString());
+            }
+        });
+        VolleyReq.getInstance(this.getApplicationContext()).addToRequestQueue(volleyDeleteRequest);
     }
 
     /**
@@ -199,9 +270,9 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
 
         Picasso.get().load(userModels.get(info.position).getAvatar()).into(profileImage);
 
-        txtId.setText("ID: " + userModels.get(info.position).getId());
-        txtName.setText("Name: " + userModels.get(info.position).getFirstName() + " " + userModels.get(info.position).getLastName());
-        txtEmail.setText("Email: " + userModels.get(info.position).getEmail());
+        txtId.setText(String.format("ID: %d", userModels.get(info.position).getId()));
+        txtName.setText(String.format("Name: %s %s", userModels.get(info.position).getFirstName(), userModels.get(info.position).getLastName()));
+        txtEmail.setText(String.format("Email: %s", userModels.get(info.position).getEmail()));
 
         final AlertDialog updateDialog = dialogBuilder.create();
         updateDialog.show();

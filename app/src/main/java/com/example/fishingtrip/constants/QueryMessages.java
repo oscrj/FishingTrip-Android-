@@ -31,4 +31,5 @@ public class QueryMessages {
 
     // API URL
     public final static String REQ_RES_URL = "https://reqres.in/api/";
+    public final static String DELETE_REQ_URL = "https://jsonplaceholder.typicode.com/posts/1";
 }
