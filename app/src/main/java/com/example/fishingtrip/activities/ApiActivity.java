@@ -2,16 +2,19 @@ package com.example.fishingtrip.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -57,10 +60,6 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
 
         loadUserData();
         txtRequestResult = findViewById(R.id.txtResult);
-        txtId = findViewById(R.id.dialogTxtId);
-        txtName = findViewById(R.id.dialogTxtFullname);
-        txtEmail = findViewById(R.id.dialogTxtEmail);
-        profileImage = findViewById(R.id.dialogImage);
         btnGET = findViewById(R.id.btnGet);
         btnPOST = findViewById(R.id.btnPost);
         btnPUT = findViewById(R.id.btnPut);
@@ -77,12 +76,11 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
         btnPOST.setOnClickListener(this);
         btnPUT.setOnClickListener(this);
         btnDELETE.setOnClickListener(this);
-        updateListView();
+        registerForContextMenu(usersList);
     }
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()){
             case R.id.btnGet:
                 JsonObjectRequest volleyGetRequest = new JsonObjectRequest(Request.Method.GET, REQ_RES_URL + "users?page=2", null, new Response.Listener<JSONObject>() {
@@ -92,15 +90,12 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
                             JSONArray dataObject = response.getJSONArray("data");
                             for(int i = 0; i < dataObject.length(); i++){
                                 JSONObject userObject = dataObject.getJSONObject(i);
-
                                 UserModel tempUser = new UserModel(userObject.getInt("id"),
                                         userObject.getString("email"),
                                         userObject.getString("first_name"),
                                         userObject.getString("last_name"),
                                         userObject.getString("avatar"));
-
                                 userModels.add(tempUser);
-                                //Picasso.get().load(userObject.getString("avatar")).into(profileImage);
                                 updateListView();
                             }
                         }catch (JSONException e){
@@ -177,7 +172,6 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.context_menu, menu);
     }
@@ -191,7 +185,26 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void showUserDetails(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View dialogView = layoutInflater.inflate(R.layout.user_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        txtId = dialogView.findViewById(R.id.dialogTxtId);
+        txtName = dialogView.findViewById(R.id.dialogTxtFullname);
+        txtEmail = dialogView.findViewById(R.id.dialogTxtEmail);
+        profileImage = dialogView.findViewById(R.id.dialogImage);
+
+        Picasso.get().load(userModels.get(info.position).getAvatar()).into(profileImage);
+
+        txtId.setText("ID: " + userModels.get(info.position).getId());
+        txtName.setText("Name: " + userModels.get(info.position).getFirstName() + " " + userModels.get(info.position).getLastName());
+        txtEmail.setText("Email: " + userModels.get(info.position).getEmail());
+
+        final AlertDialog updateDialog = dialogBuilder.create();
+        updateDialog.show();
     }
 
     /**
@@ -216,7 +229,7 @@ public class ApiActivity extends AppCompatActivity implements View.OnClickListen
      * Update ListView
      */
     public void updateListView() {
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, userModels);
+        arrayAdapter = new ArrayAdapter(this, R.layout.list_view_layout, R.id.txtListViewColor, userModels);
         usersList.setAdapter(arrayAdapter);
     }
 

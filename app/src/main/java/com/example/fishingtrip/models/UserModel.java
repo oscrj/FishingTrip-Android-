@@ -58,12 +58,6 @@ public class UserModel {
 
     @Override
     public String toString() {
-        return "UserModel{" +
-                "Id=" + Id +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", avatar='" + avatar + '\'' +
-                '}';
+        return getFirstName() + " " + getLastName();
     }
 }

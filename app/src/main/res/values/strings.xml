@@ -34,7 +34,7 @@
     <string name="api_btn_POST">POST Request</string>
     <string name="api_btn_PUT">PUT Request</string>
     <string name="api_btn_DELETE">DELETE Request</string>
-    <string name="api_txt_result">Request Result Here</string>
+    <string name="api_txt_result">Request Result</string>
     <string name="api_txt_id">ID</string>
     <string name="api_txt_full_name">Name</string>
     <string name="api_txt_email">Email</string>
