@@ -321,6 +321,11 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Get trip that is active.
+     * @param userName - user that created trip.
+     * @return - trip that is active and created by user with username.
+     */
     public FishingTrip getActiveTrip(String userName){
         SQLiteDatabase db = getReadableDatabase();
         FishingTrip tempTrip = null;
@@ -359,6 +364,7 @@ public class DBHelper extends SQLiteOpenHelper {
             db.close();
             cursor.close();
             return false;
+
         }else{
             db.close();
             cursor.close();

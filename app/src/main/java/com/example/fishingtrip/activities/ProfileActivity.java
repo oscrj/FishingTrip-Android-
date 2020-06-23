@@ -136,7 +136,7 @@ public class ProfileActivity extends AppCompatActivity {
                 updateAppUser(item);
                 break;
             case 101:
-                appUserRecyclerAdapter.deleteAppUser(item.getGroupId());
+                appUserRecyclerAdapter.deleteAppUser(item.getGroupId(), userLoginData);
                 break;
         }
         return super.onContextItemSelected(item);

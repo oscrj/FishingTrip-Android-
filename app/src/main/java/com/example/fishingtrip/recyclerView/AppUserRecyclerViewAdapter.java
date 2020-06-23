@@ -1,9 +1,10 @@
 package com.example.fishingtrip.recyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,15 +114,29 @@ public class AppUserRecyclerViewAdapter extends RecyclerView.Adapter<AppUserRecy
      * Delete AppUser
      * @param position - Delete selected User on position in List<AppUser>/>.
      */
-    public void deleteAppUser(int position) {
+    public void deleteAppUser(int position, String loginUser) {
         DBHelper dbHelper = new DBHelper(context);
-        boolean status = dbHelper.deleteUser(listOfData.get(position));
-        if (status){
-            listOfData.remove(position);
-            notifyDataSetChanged();
-            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(context, "User was NOT Deleted!", Toast.LENGTH_SHORT).show();
+
+        if (listOfData.get(position).getUserName().equals(loginUser)){
+            final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+            alertBuilder.setMessage("You can't delete yourself, ask someone else?");
+            alertBuilder.setCancelable(false);
+            alertBuilder.setPositiveButton("OK", new Dialog.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            final AlertDialog delete = alertBuilder.create();
+            delete.show();
+        }else{
+            boolean status = dbHelper.deleteUser(listOfData.get(position));
+            if (status){
+                listOfData.remove(position);
+                notifyDataSetChanged();
+                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(context, "User was NOT Deleted!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -147,7 +162,6 @@ public class AppUserRecyclerViewAdapter extends RecyclerView.Adapter<AppUserRecy
             menu.setHeaderTitle("Selection:");
             menu.add(this.getAdapterPosition(), 100, 0, "Update");
             menu.add(this.getAdapterPosition(), 101, 1, "Delete");
-
         }
     }
 }
