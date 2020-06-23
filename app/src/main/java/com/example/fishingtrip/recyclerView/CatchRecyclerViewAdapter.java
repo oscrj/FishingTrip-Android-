@@ -1,5 +1,7 @@
 package com.example.fishingtrip.recyclerView;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -23,10 +25,20 @@ public class CatchRecyclerViewAdapter extends RecyclerView.Adapter<CatchRecycler
 
     List<Catch> listOfData;
     Context context;
+    private LayoutInflater layoutInflater;
 
     public CatchRecyclerViewAdapter(Context ct, List<Catch> titles) {
         this.listOfData = titles;
         this.context = ct;
+    }
+    
+    /**
+     * Needed LayoutInflater to create custom Dialog. quick fix and not a great solution. Don't have time to do find
+     * a better solution today...
+     * @param inflater - i get from the activity im in. (context)
+     */
+    public void setLayoutInflater(LayoutInflater inflater){
+        this.layoutInflater = inflater;
     }
 
     @NonNull
@@ -37,16 +49,38 @@ public class CatchRecyclerViewAdapter extends RecyclerView.Adapter<CatchRecycler
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CatchRecyclerViewAdapter.ViewHolder holder, final int position) {
         holder.species.setText(listOfData.get(position).getSpecies());
-        holder.length.setText(String.valueOf(listOfData.get(position).getLength() + " cm"));
-        holder.weight.setText(String.valueOf(listOfData.get(position).getWeight() + " kg"));
+        holder.length.setText(listOfData.get(position).getLength() + " cm");
+        holder.weight.setText(listOfData.get(position).getWeight() + " kg");
         holder.image.setImageResource(R.drawable.ic_catch_logo);
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, listOfData.get(position).toString(), Toast.LENGTH_SHORT).show();
+
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+                View dialogView = layoutInflater.inflate(R.layout.catch_details_dialog, null);
+                alertBuilder.setView(dialogView);
+
+                TextView species, length, weight, description;
+                ImageView caughtFish;
+
+                species = dialogView.findViewById(R.id.catchDialogTxtSpecies);
+                length = dialogView.findViewById(R.id.catchDialogTxtLength);
+                weight = dialogView.findViewById(R.id.catchDialogTxtWeight);
+                description = dialogView.findViewById(R.id.catchDialogTxtDescription);
+                caughtFish = dialogView.findViewById(R.id.catchDialogImage);
+
+                species.setText(listOfData.get(position).getSpecies());
+                length.setText(listOfData.get(position).getLength() + " cm");
+                weight.setText(listOfData.get(position).getWeight() + " kg");
+                description.setText("Description.....");
+
+                AlertDialog addCatchDetails = alertBuilder.create();
+                addCatchDetails.show();
+
             }
         });
     }

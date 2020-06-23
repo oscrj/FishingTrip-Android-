@@ -73,6 +73,8 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         setDataToRecyclerView();
         isFishingTripActive();
 
+        giveCatchAdapterInflater();
+
         if( isFishingTripActive()){
             btnAddCatch.setEnabled(true);
         }else{
@@ -83,6 +85,7 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         btnAddCatch.setOnClickListener(this);
         btnEndTrip.setOnClickListener(this);
     }
+
 
     @Override
     protected void onPause() {
@@ -301,5 +304,13 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         dbHelper.updateTrip(thisFishingTrip);
         btnAddCatch.setEnabled(false);
         btnAddCatch.setBackgroundColor(getResources().getColor(R.color.colorViewBackground));
+    }
+
+    /**
+     * Give adapter an LayoutInflater to make it possible to show catch details. ()
+     */
+    private void giveCatchAdapterInflater() {
+        LayoutInflater inflater = getLayoutInflater();
+        catchRecyclerViewAdapter.setLayoutInflater(inflater);
     }
 }
