@@ -28,7 +28,7 @@ Jag kommer att göra en app som ska fungera som en fiskedagbok. Där användaren
 	
 Den här listan kan göras väldigt lång men kommer fokusera på dom 5 övre punkter för att kunna uppnå godkänt i denna kursen. Under är en lista på önskad funktionalitet jag kommer jobba med som ett hobby projekt. Finns tid, så kommer jag börja kolla även på dessa.
 
-	- Kunna fotografera din fångs med mobilkameran.
+	- Kunna fotografera din fångst med mobilkameran.
 	- Kunna integrera med andra användare,
 	- Dela erfarenheter och fiskevatten med användare.
 	- Lägga till waypoints på kartor med information ang ditt fiske och plats.
