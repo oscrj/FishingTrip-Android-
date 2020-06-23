@@ -169,7 +169,7 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Update caught fish.
-     * @param item
+     * @param item - is the object user selected...
      */
     private void updateCatch(MenuItem item) {
         Toast.makeText(this, "Not yet implemented!", Toast.LENGTH_SHORT).show();

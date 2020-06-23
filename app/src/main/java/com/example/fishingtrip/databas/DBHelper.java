@@ -321,6 +321,32 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public FishingTrip getActiveTrip(String userName){
+        SQLiteDatabase db = getReadableDatabase();
+        FishingTrip tempTrip = null;
+        int active = 1;
+        Cursor cursor = db.rawQuery("SELECT * FROM " + FISHING_TRIP_TABLE + " WHERE " + COL_APP_USER + " = " + "'" + userName + "'" + " AND "
+                + COL_IS_ACTIVE + " = " + "'" + active + "'", null);
+
+        if (cursor.moveToFirst()){
+            do{
+                boolean isActive = cursor.getInt(5) == 1 ? true:false;
+                tempTrip = new FishingTrip(cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        isActive);
+            }while (cursor.moveToNext());
+
+        }else {
+            //throw new IllegalArgumentException("Didn't find any Trips!! ");
+        }
+        db.close();
+        cursor.close();
+        return tempTrip;
+    }
+
     /**
      * Delete fishing trip
      * @param trip - trip that will be deleted

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
+import com.example.fishingtrip.models.FishingTrip;
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
@@ -52,10 +53,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        homeUserName.setText(userLoginData);
-        btnNewTrip.setOnClickListener(this);
-        btnAllTrips.setOnClickListener(this);
-        btnAPI.setOnClickListener(this);
+
+        boolean isFishing = dbHelper.checkForActiveTrips(userLoginData);
+        if(isFishing){
+            continueFishing();
+        }else{
+            homeUserName.setText(userLoginData);
+            btnNewTrip.setOnClickListener(this);
+            btnAllTrips.setOnClickListener(this);
+            btnAPI.setOnClickListener(this);
+        }
     }
 
     @Override
@@ -141,7 +148,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnNewFishingtrip:
-                checkIfUserHasActiveTrips();
+                checkActiveTrips();
                 break;
             case R.id.btnTrips:
                 Intent allTrips = new Intent(this, FishingTripsActivity.class);
@@ -155,9 +162,43 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     *
+     * If user has an active fishingTrip, user will be ask to go to that trip and continue fishing or
+     * go to home screen.
      */
-    private void checkIfUserHasActiveTrips() {
+    private void continueFishing() {
+        final FishingTrip activeTrip = dbHelper.getActiveTrip(userLoginData);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(HomeActivity.this);
+        alertDialogBuilder.setMessage("YOU HAVE AN ACTIVE TRIP! \n\nResume fishing?");
+        alertDialogBuilder.setCancelable(false);
+
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent goToActiveTrip = new Intent(HomeActivity.this, NewTripActivity.class);
+                goToActiveTrip.putExtra("FISHING_TRIP_ID", String.valueOf(activeTrip.getFishingTripId()));
+                startActivity(goToActiveTrip);
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                homeUserName.setText(userLoginData);
+                btnNewTrip.setOnClickListener(HomeActivity.this);
+                btnAllTrips.setOnClickListener(HomeActivity.this);
+                btnAPI.setOnClickListener(HomeActivity.this);
+            }
+        });
+
+        AlertDialog activeTripsFound = alertDialogBuilder.create();
+        activeTripsFound.show();
+    }
+
+    /**
+     * Check if there are active fishingTrips. Alert user to end them if they want to create a new trip.
+     */
+    private void checkActiveTrips() {
         boolean activeTrips = dbHelper.checkForActiveTrips(userLoginData);
 
         if (activeTrips){

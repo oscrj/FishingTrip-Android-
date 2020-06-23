@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import com.example.fishingtrip.R;
 import com.example.fishingtrip.databas.DBHelper;
+import com.example.fishingtrip.models.FishingTrip;
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
@@ -70,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }else{
-            Intent homeActivity = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(homeActivity);
+                Intent homeActivity = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(homeActivity);
         }
 
     }
