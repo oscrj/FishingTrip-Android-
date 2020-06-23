@@ -116,6 +116,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         return userList;
     }
+
     /**
      * Find user by specific userName.
      * @param userName - Find AppUser in database that match userName.
@@ -136,11 +137,10 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * This method to check user exist or not
-     *
-     * @param userName
-     * @param password
-     * @return true/false
+     * This method check if user exist or not. userName is unique in database and cant be two users with the same userName.
+     * @param userName - check if there is a user with this userName that also has the exact password.
+     * @param password - check if there is a user with this password that also has the exact userName.
+     * @return true/false - if both condition is true / if none or only one of the conditions is true
      */
     public boolean checkUser(String userName, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -250,7 +250,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return fishingTrips;
     }
 
-
+    /**
+     * Get fishingTrip from database with specific ID
+     * @param fishingTripId - get Trip with specific id.
+     * @return - the trip matching the specific id.
+     */
     public FishingTrip getFishingTripById(String fishingTripId) {
         SQLiteDatabase db = getReadableDatabase();
         FishingTrip tempTrip = null;
@@ -278,6 +282,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         return tempTrip;
     }
+
     /**
      * Update fishing trip
      * @param trip - fishing trip that will be updated.
@@ -292,6 +297,28 @@ public class DBHelper extends SQLiteOpenHelper {
                 + COL_IS_ACTIVE + " = " + "'" + isActive + "'"
                 + " WHERE " + COL_FISHING_TRIP_ID + " = " + "'" + trip.getFishingTripId() + "'");
         db.close();
+    }
+
+    /**
+     * Check if there is a active FishingTrip that user whit userName has created.
+     * @param userName - Check only trips that is bind to user with this userName.
+     * @return true/false - if there is any active trips or not made by user with userName.
+     */
+    public boolean checkForActiveTrips(String userName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int isActive = 1;
+                Cursor cursor = db.rawQuery("SELECT * FROM " + FISHING_TRIP_TABLE + " WHERE " + COL_APP_USER + " = " + "'" + userName + "'" + " AND "
+                + COL_IS_ACTIVE + " = " + "'" + isActive + "'", null);
+        int cursorCount = cursor.getCount();
+        if (cursorCount > 0) {
+            cursor.close();
+            db.close();
+            return true;
+        }else{
+            cursor.close();
+            db.close();
+            return false;
+        }
     }
 
     /**
@@ -369,6 +396,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return catches;
     }
 
+    /**
+     * Delete caught fish.
+     * @param fishCaught - Catch that will be deleted.
+     * @return - true or false if catch was or was not removed from database.
+     */
     public boolean deleteCatch(Catch fishCaught){
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery("DELETE FROM " + FISH_CAUGHT_TABLE + " WHERE " + COL_FISH_CATCH_ID + " = " + fishCaught.getCatchId(), null);
@@ -381,6 +413,5 @@ public class DBHelper extends SQLiteOpenHelper {
             cursor.close();
             return true;
         }
-
     }
 }

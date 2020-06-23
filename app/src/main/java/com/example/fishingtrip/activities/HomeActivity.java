@@ -2,8 +2,10 @@ package com.example.fishingtrip.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -26,8 +28,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private TextView homeUserName;
     private Button btnNewTrip, btnAllTrips, btnAPI;
     private String userLoginData;
-    //private RecyclerView fishingTripRecyclerView;
-    //private FishingTripRecyclerViewAdapter recyclerViewAdapter;
     private DBHelper dbHelper;
 
     @Override
@@ -41,7 +41,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         btnAllTrips = findViewById(R.id.btnTrips);
         btnAPI = findViewById(R.id.btnApi);
         dbHelper = new DBHelper(this);
-        //fishingTripRecyclerView = findViewById(R.id.listLatestTrips);
+
     }
 
     @Override
@@ -53,11 +53,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         homeUserName.setText(userLoginData);
-
         btnNewTrip.setOnClickListener(this);
         btnAllTrips.setOnClickListener(this);
         btnAPI.setOnClickListener(this);
-        //setDataToRecyclerView();
     }
 
     @Override
@@ -80,9 +78,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
     }
 
-    /**
-     *  Create Actionbar menu
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -100,9 +95,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         return super.onCreateOptionsMenu(menu);
     }
 
-    /**
-     *  On clicked item in actionbar selector.
-     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -128,13 +120,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     * SAVE User login session.
-     */
-    public void saveUserDATA(){
-
-    }
-
-    /**
      * load User data if user are logged in.
      */
     public void loadUserData(){
@@ -152,28 +137,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         editor.apply();
     }
 
-
-    /*/**
-     *  Set Data from database to RecyclerView.
-     */
-    /*
-    public void setDataToRecyclerView(){
-        recyclerViewAdapter = new FishingTripRecyclerViewAdapter(this, dbHelper.getAllFishingTripByUserName(userLoginData));
-        fishingTripRecyclerView.setAdapter(recyclerViewAdapter);
-        fishingTripRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }*/
-
-
-    /**
-     * On click listener for the buttons on HomeActivity.
-     * @param v - one of the three buttons on homeActivity.
-     */
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnNewFishingtrip:
-                Intent createNewTrip = new Intent(this, CreateNewTripActivity.class);
-                startActivity(createNewTrip);
+                checkIfUserHasActiveTrips();
                 break;
             case R.id.btnTrips:
                 Intent allTrips = new Intent(this, FishingTripsActivity.class);
@@ -183,6 +151,32 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 Intent apiActivity = new Intent(this, ApiActivity.class);
                 startActivity(apiActivity);
                 break;
+        }
+    }
+
+    /**
+     *
+     */
+    private void checkIfUserHasActiveTrips() {
+        boolean activeTrips = dbHelper.checkForActiveTrips(userLoginData);
+
+        if (activeTrips){
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(HomeActivity.this);
+            alertDialogBuilder.setMessage("YOU HAVE AN ACTIVE TRIP! \n\nYou have to end trip before creating a new trip.");
+
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent fishingTripsActivity = new Intent(HomeActivity.this, FishingTripsActivity.class);
+                    startActivity(fishingTripsActivity);
+                }
+            });
+            AlertDialog activeTripsFound = alertDialogBuilder.create();
+            activeTripsFound.show();
+
+        }else{
+            Intent createNewTrip = new Intent(this, CreateNewTripActivity.class);
+            startActivity(createNewTrip);
         }
     }
 }

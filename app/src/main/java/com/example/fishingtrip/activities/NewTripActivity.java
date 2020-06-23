@@ -29,7 +29,6 @@ import com.example.fishingtrip.models.Catch;
 import com.example.fishingtrip.models.FishingTrip;
 import com.example.fishingtrip.recyclerView.CatchRecyclerViewAdapter;
 
-
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
 
@@ -72,11 +71,18 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         super.onResume();
         getDataFromIntent();
         setDataToRecyclerView();
+        isFishingTripActive();
+
+        if( isFishingTripActive()){
+            btnAddCatch.setEnabled(true);
+        }else{
+            btnAddCatch.setEnabled(false);
+            btnAddCatch.setBackgroundColor(getResources().getColor(R.color.colorViewBackground));
+        }
 
         btnAddCatch.setOnClickListener(this);
         btnEndTrip.setOnClickListener(this);
     }
-
 
     @Override
     protected void onPause() {
@@ -144,13 +150,6 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     /**
-     * SAVE User login session.
-     */
-    public void saveUserDATA(){
-
-    }
-
-    /**
      *  Set inItemSelected on context menu.
      * @param item - the item user clicked on.
      */
@@ -179,7 +178,7 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     /**
      * load User data if user are logged in.
      */
-    public void loadUserData(){
+    private void loadUserData(){
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_LOGIN, MODE_PRIVATE);
         userLoginData = sharedPreferences.getString(USER_NAME_DATA, "Username not found!");
     }
@@ -187,7 +186,7 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     /**
      * clear data if user logout.
      */
-    public void clearUserData(){
+    private void clearUserData(){
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_LOGIN, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove(USER_NAME_DATA);
@@ -195,7 +194,8 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     /**
-     *  Set Header to trip location and receive data from fishingTrip.
+     *  Receive data from intent (in this case an ID) and uses that Data to get the object with all its data from database.
+     *  Sets Header to trip location using the received object, check if trip is active, connect catches to this trip ...
      */
     private void getDataFromIntent() {
         getFishingTripData = getIntent();
@@ -203,10 +203,22 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         txtLocation.setText(thisFishingTrip.getLocation());
     }
 
-    public void setDataToRecyclerView(){
+    /**
+     * Set data to recyclerView.
+     */
+    private void setDataToRecyclerView(){
         catchRecyclerViewAdapter = new CatchRecyclerViewAdapter(this, dbHelper.getCatchWithFishTripId(String.valueOf(thisFishingTrip.getFishingTripId())));
         catchRecyclerView.setAdapter(catchRecyclerViewAdapter);
         catchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    /**
+     * Chech if FishingTrip is Active.
+     * @return - return true if Trip is active and enables btnAddCatch. false disables btnAddCatch and sets backgroundColor to
+     * default viewColor.
+     */
+    private boolean isFishingTripActive() {
+        return thisFishingTrip.isActive();
     }
 
     @Override
@@ -216,11 +228,15 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
                 addCatchDialog();
                 break;
             case R.id.btnEndTrip:
+                endTrip();
                 break;
         }
     }
 
-    public void addCatchDialog() {
+    /**
+     * Add caught fish to database through a custom Dialog.
+     */
+    private void addCatchDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.add_catch_dialog, null);
@@ -274,5 +290,16 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
+    }
+
+    /**
+     * When trip is ended trip the database is updated with false on isActive and the btnAddCatch is sett to unable and
+     * backgroundColor is set to default viewColor.
+     */
+    private void endTrip() {
+        thisFishingTrip.setActive(false);
+        dbHelper.updateTrip(thisFishingTrip);
+        btnAddCatch.setEnabled(false);
+        btnAddCatch.setBackgroundColor(getResources().getColor(R.color.colorViewBackground));
     }
 }
