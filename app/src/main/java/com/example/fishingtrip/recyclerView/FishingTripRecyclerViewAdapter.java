@@ -1,5 +1,6 @@
 package com.example.fishingtrip.recyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +25,6 @@ import com.example.fishingtrip.activities.FishingTripsActivity;
 import com.example.fishingtrip.activities.NewTripActivity;
 import com.example.fishingtrip.databas.DBHelper;
 import com.example.fishingtrip.models.FishingTrip;
-
 
 import java.util.List;
 
@@ -52,6 +52,11 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
         holder.waterType.setText(listOfData.get(position).getWaterType());
         holder.location.setText("-  " + listOfData.get(position).getLocation());
         holder.image.setImageResource(R.drawable.ic_action_menu_fishingtrip_logo);
+
+        if (!listOfData.get(position).isActive()){
+            holder.btnIsActive.setBackgroundColor(1);
+        }
+
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,6 +139,7 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
 
         private TextView method, waterType, location;
         private ImageView image;
+        private Button btnIsActive;
         private ConstraintLayout constraintLayout;
 
         public ViewHolder(@NonNull View itemView) {
@@ -142,6 +148,7 @@ public class FishingTripRecyclerViewAdapter extends RecyclerView.Adapter<Fishing
             waterType = itemView.findViewById(R.id.txtWaterTypeRow);
             location = itemView.findViewById(R.id.txtLocationRow);
             image = itemView.findViewById(R.id.imageFishingTripRow);
+            btnIsActive = itemView.findViewById(R.id.btnTripActive);
             constraintLayout = itemView.findViewById(R.id.constRowFishingTrips);
             constraintLayout.setOnCreateContextMenuListener(this);
         }

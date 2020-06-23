@@ -6,6 +6,7 @@
     <string name="btn_update">Update</string>
     <string name="btn_register">Register</string>
     <string name="btn_add_fishing_trip">Add Fishing Trip</string>
+    <string name="btn_is_trip_active"> </string>
     <string name="hint_username">username</string>
     <string name="hint_password">password</string>
     <string name="hint_first_name">First name</string>

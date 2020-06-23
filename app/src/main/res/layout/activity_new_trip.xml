@@ -41,7 +41,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
-        android:background="#7E602424"
+        android:background="@color/colorDanger"
         android:text="@string/end_of_trip"
         android:textColor="@color/colorText"
         app:layout_constraintStart_toStartOf="parent"

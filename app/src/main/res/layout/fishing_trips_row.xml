@@ -75,6 +75,18 @@
                 android:textColor="@color/colorText"
                 app:layout_constraintBottom_toBottomOf="@+id/txtWaterTypeRow"
                 app:layout_constraintStart_toEndOf="@+id/txtWaterTypeRow" />
+
+            <Button
+                android:id="@+id/btnTripActive"
+                android:layout_width="17dp"
+                android:layout_height="15dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/colorAccent"
+                android:text="@string/btn_is_trip_active"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
