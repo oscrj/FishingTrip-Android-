@@ -95,7 +95,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         actionBar.setLogo(R.drawable.ic_action_menu_fishingtrip_logo);
         actionBar.setDisplayUseLogoEnabled(true);
 
-        // Set menu to activity, inflater handel the print!
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionbar_menu, menu);
 
@@ -200,7 +199,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void checkActiveTrips() {
         boolean activeTrips = dbHelper.checkForActiveTrips(userLoginData);
-
         if (activeTrips){
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(HomeActivity.this);
             alertDialogBuilder.setMessage("YOU HAVE AN ACTIVE TRIP! \n\nYou have to end trip before creating a new trip.");

@@ -133,6 +133,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)), cursor.getString(cursor.getColumnIndex(COL_EMAIL)));
         }
         cursor.close();
+        db.close();
         return tempAppUser;
     }
 
@@ -364,7 +365,6 @@ public class DBHelper extends SQLiteOpenHelper {
             db.close();
             cursor.close();
             return false;
-
         }else{
             db.close();
             cursor.close();
@@ -402,12 +402,10 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return - List of all fish caught on that trip.
      */
     public List<Catch> getCatchWithFishTripId(String fishingTripId) {
-
         SQLiteDatabase db = getReadableDatabase();
         List<Catch> catches = new ArrayList<>();
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + FISH_CAUGHT_TABLE + " WHERE " + COL_CATCH_FISHING_TRIP_ID + " = " + "'" + fishingTripId + "'", null);
-
         if (cursor.moveToFirst()){
             do {
                 Catch tempCatch = new Catch(cursor.getInt(0),

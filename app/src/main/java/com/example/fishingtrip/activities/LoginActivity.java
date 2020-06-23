@@ -32,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
     private String userLoginData;
     private DBHelper dbHelper;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Makes it possible to submit if user enters text to input field.
+
         btnLogin.setEnabled(false);
         userNameInput.addTextChangedListener(loginValidation);
         passwordInput.addTextChangedListener(loginValidation);
@@ -85,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setLogo(R.drawable.ic_action_menu_fishingtrip_logo);
         actionBar.setDisplayUseLogoEnabled(true);
-        // Set menu to activity, inflater handel the print!
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionbar_menu_no_permit, menu);
         return super.onCreateOptionsMenu(menu);
@@ -158,19 +157,4 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString(USER_NAME_DATA, userLoginData);
         editor.apply();
     }
-
-    /**
-     * load User data if user are logged in.
-     */
-    public void loadUserData(){
-
-    }
-
-    /**
-     * clear data if user logout.
-     */
-    public void clearUserData(){
-
-    }
-
 }

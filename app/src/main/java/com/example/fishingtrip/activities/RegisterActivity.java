@@ -115,31 +115,9 @@ public class RegisterActivity extends AppCompatActivity {
         actionBar.setLogo(R.drawable.ic_action_menu_fishingtrip_logo);
         actionBar.setDisplayUseLogoEnabled(true);
 
-        // Set menu to activity, inflater handel the print!
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionbar_menu_no_permit, menu);
 
         return super.onCreateOptionsMenu(menu);
-    }
-
-    /**
-     * SAVE User login session.
-     */
-    public void saveUserDATA(){
-
-    }
-
-    /**
-     * load User data if user are logged in.
-     */
-    public void loadUserData(){
-
-    }
-
-    /**
-     * clear data if user logout.
-     */
-    public void clearUserData(){
-
     }
 }

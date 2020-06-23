@@ -1,6 +1,5 @@
 package com.example.fishingtrip.recyclerView;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;

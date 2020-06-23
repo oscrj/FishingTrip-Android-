@@ -31,7 +31,7 @@ public class CatchRecyclerViewAdapter extends RecyclerView.Adapter<CatchRecycler
         this.listOfData = titles;
         this.context = ct;
     }
-    
+
     /**
      * Needed LayoutInflater to create custom Dialog. quick fix and not a great solution. Don't have time to do find
      * a better solution today...
@@ -60,6 +60,10 @@ public class CatchRecyclerViewAdapter extends RecyclerView.Adapter<CatchRecycler
             @Override
             public void onClick(View v) {
 
+                Toast.makeText(context, listOfData.get(position).toString(), Toast.LENGTH_SHORT).show();
+
+                // A Bug I need to fix before implementing it.
+                /*
                 AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
                 View dialogView = layoutInflater.inflate(R.layout.catch_details_dialog, null);
                 alertBuilder.setView(dialogView);
@@ -80,6 +84,7 @@ public class CatchRecyclerViewAdapter extends RecyclerView.Adapter<CatchRecycler
 
                 AlertDialog addCatchDetails = alertBuilder.create();
                 addCatchDetails.show();
+                */
 
             }
         });
@@ -120,7 +125,6 @@ public class CatchRecyclerViewAdapter extends RecyclerView.Adapter<CatchRecycler
             image = itemView.findViewById(R.id.imgCatchRow);
             constraintLayout = itemView.findViewById(R.id.constRowCatch);
             constraintLayout.setOnCreateContextMenuListener(this);
-
         }
 
         @Override

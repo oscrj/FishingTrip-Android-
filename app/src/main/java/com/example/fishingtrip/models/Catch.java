@@ -54,12 +54,6 @@ public class Catch {
 
     @Override
     public String toString() {
-        return "Catch{" +
-                "catchId=" + catchId +
-                ", species='" + species + '\'' +
-                ", length=" + length +
-                ", weight=" + weight +
-                ", fishingTrip='" + fishingTrip + '\'' +
-                '}';
+        return getSpecies() + "   " + getLength() + " cm   " + getWeight()  + " kg";
     }
 }

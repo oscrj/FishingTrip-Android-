@@ -72,16 +72,14 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         getDataFromIntent();
         setDataToRecyclerView();
         isFishingTripActive();
-
         giveCatchAdapterInflater();
 
-        if( isFishingTripActive()){
+        if(isFishingTripActive()){
             btnAddCatch.setEnabled(true);
         }else{
             btnAddCatch.setEnabled(false);
             btnAddCatch.setBackgroundColor(getResources().getColor(R.color.colorViewBackground));
         }
-
         btnAddCatch.setOnClickListener(this);
         btnEndTrip.setOnClickListener(this);
     }
@@ -107,9 +105,6 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         super.onDestroy();
     }
 
-    /**
-     *  Create Actionbar menu
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         actionBar = getSupportActionBar();
@@ -118,16 +113,12 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         actionBar.setLogo(R.drawable.ic_action_menu_fishingtrip_logo);
         actionBar.setDisplayUseLogoEnabled(true);
 
-        // Set menu to activity, inflater handel the print!
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionbar_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
 
-    /**
-     *  On clicked item in actionbar selector.
-     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -152,10 +143,6 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     *  Set inItemSelected on context menu.
-     * @param item - the item user clicked on.
-     */
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -166,7 +153,6 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
                 catchRecyclerViewAdapter.deleteFishCaught(item.getGroupId());
                 break;
         }
-
         return super.onContextItemSelected(item);
     }
 
@@ -270,7 +256,6 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
         btnConfirmAddCatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(length.getText().toString().isEmpty()){
                     length.setText("0.0");
                 }
@@ -292,7 +277,6 @@ public class NewTripActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
-
     }
 
     /**

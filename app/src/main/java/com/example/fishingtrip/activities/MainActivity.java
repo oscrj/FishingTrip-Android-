@@ -14,8 +14,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.fishingtrip.R;
-import com.example.fishingtrip.databas.DBHelper;
-import com.example.fishingtrip.models.FishingTrip;
 
 import static com.example.fishingtrip.constants.UserSharedPref.SHARED_PREF_LOGIN;
 import static com.example.fishingtrip.constants.UserSharedPref.USER_NAME_DATA;
@@ -44,9 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // Check if user already logged in
         loadUserData();
-
         if(userLoginData.isEmpty() || userLoginData.equals("User Not found!")){
 
             /**
@@ -92,9 +88,6 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    /**
-     *  Create Actionbar menu
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         actionBar = getSupportActionBar();
@@ -103,15 +96,11 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setLogo(R.drawable.ic_action_menu_fishingtrip_logo);
         actionBar.setDisplayUseLogoEnabled(true);
 
-        // Set menu to activity, inflater handel the print!
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionbar_menu_no_permit, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    /**
-     *  On clicked item in actionbar selector.
-     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.actionBarRegister) {
@@ -122,24 +111,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * SAVE User login session.
-     */
-    public void saveUserDATA(){
-
-    }
-
-    /**
      * load User data if user are logged in.
      */
     public void loadUserData(){
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_LOGIN, MODE_PRIVATE);
         userLoginData = sharedPreferences.getString(USER_NAME_DATA, "User Not found!");
-    }
-
-    /**
-     * clear data if user logout.
-     */
-    public void clearUserData(){
-
     }
 }

@@ -42,7 +42,7 @@ public class CreateNewTripActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_trip);
 
-        loadUserData(); // Get Logged in user data.
+        loadUserData();
         fishingMethod = findViewById(R.id.spinFishingMethod);
         waterType = findViewById(R.id.spinWaterType);
         inputLocation = findViewById(R.id.inputFishingLocation);
@@ -72,7 +72,7 @@ public class CreateNewTripActivity extends AppCompatActivity {
 
                 FishingTrip newFishingTrip = new FishingTrip(-1, inputFishingMethod, inputWaterType, inputLocation.getText().toString(),
                         userLoginData, true);
-                //  Save trip to DataBase.
+
                 boolean status = dbHelper.addFishingTrip(newFishingTrip);
 
                 if (status){
@@ -116,9 +116,6 @@ public class CreateNewTripActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    /**
-     *  Create Actionbar menu
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -128,16 +125,12 @@ public class CreateNewTripActivity extends AppCompatActivity {
         actionBar.setLogo(R.drawable.ic_action_menu_fishingtrip_logo);
         actionBar.setDisplayUseLogoEnabled(true);
 
-        // Set menu to activity, inflater handel the print!
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionbar_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
 
-    /**
-     *  On clicked item in actionbar selector.
-     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -160,13 +153,6 @@ public class CreateNewTripActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * SAVE User login session.
-     */
-    public void saveUserDATA(){
-
     }
 
     /**

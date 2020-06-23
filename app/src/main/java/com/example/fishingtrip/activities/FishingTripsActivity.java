@@ -73,9 +73,6 @@ public class FishingTripsActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    /**
-     *  Create Actionbar menu
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         actionBar = getSupportActionBar();
@@ -84,16 +81,12 @@ public class FishingTripsActivity extends AppCompatActivity {
         actionBar.setLogo(R.drawable.ic_action_menu_fishingtrip_logo);
         actionBar.setDisplayUseLogoEnabled(true);
 
-        // Set menu to activity, inflater handel the print!
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionbar_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
 
-    /**
-     *  On clicked item in actionbar selector.
-     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -118,10 +111,6 @@ public class FishingTripsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     *  Set inItemSelected on context menu.
-     * @param item - the item user clicked on.
-     */
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -132,7 +121,6 @@ public class FishingTripsActivity extends AppCompatActivity {
                 recyclerViewAdapter.deleteTrip(item.getGroupId());
                 break;
         }
-
         return super.onContextItemSelected(item);
     }
 
@@ -144,13 +132,6 @@ public class FishingTripsActivity extends AppCompatActivity {
 
         AlertDialog updateDialog = dialogBuilder.create();
         updateDialog.show();
-    }
-
-    /**
-     * SAVE User login session.
-     */
-    public void saveUserDATA(){
-
     }
 
     /**

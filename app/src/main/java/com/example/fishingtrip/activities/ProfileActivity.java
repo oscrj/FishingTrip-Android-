@@ -80,9 +80,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    /**
-     *  Create Actionbar menu
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         actionBar = getSupportActionBar();
@@ -91,16 +88,12 @@ public class ProfileActivity extends AppCompatActivity {
         actionBar.setLogo(R.drawable.ic_action_menu_fishingtrip_logo);
         actionBar.setDisplayUseLogoEnabled(true);
 
-        // Set menu to activity, inflater handel the print!
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionbar_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
 
-    /**
-     *  On clicked item in actionbar selector.
-     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -125,10 +118,6 @@ public class ProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     *  Set onItemSelected on context menu.
-     * @param item - the item user clicked on.
-     */
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -145,18 +134,9 @@ public class ProfileActivity extends AppCompatActivity {
     public void updateAppUser(MenuItem item){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater layoutInflater = getLayoutInflater();
-
         appUserRecyclerAdapter.updateAppUser(item.getGroupId(), dialogBuilder, layoutInflater);
-
         AlertDialog updateDialog = dialogBuilder.create();
         updateDialog.show();
-    }
-
-    /**
-     * SAVE User login session.
-     */
-    public void saveUserDATA(){
-
     }
 
     /**
